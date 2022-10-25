@@ -68,4 +68,12 @@ const createUser = async (req, res) => {
 
 module.exports = {
   createUser,
+  loginUser,
+  forgotUser,
+  verifyUser,
+  resetUser,
+  updateUser,
+  passwordchangeUser,
+  addtaxUser,
+  removetaxUser,
 }
