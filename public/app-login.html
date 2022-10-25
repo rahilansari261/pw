@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Cabin:400,600"
+      rel="stylesheet"
+    />
+    <title>Paper Weight | Roaring Studios</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
+      rel="stylesheet"
+      id="bootstrap-css"
+    />
+    <link href="css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
+    <meta name="author" content="Roaring Studios" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Cabin:400,600"
+      rel="stylesheet"
+    />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="v2-css/app-login.css" />
+    <!-- <script src="//code.jquery.com/jquery-1.10.2.min.js"></script> -->
+    <!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> -->
+  </head>
+  <body ng-app="sp" ng-cloak>
+    <!--
+    you can substitue the span of reauth email for a input with the email and
+    include the remember me checkbox
+    -->
+    <div class="container">
+      <div class="card card-container" ng-controller="loginCtrl">
+        <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
+        <img
+          id="profile-img"
+          class="profile-img-card"
+          src="img/diamond-icon.png"
+        />
+        <h1 class="text-center">Paperweight</h1>
+        <p id="profile-name" class="profile-name-card"></p>
+        <form class="form-signin" ng-submit="processForm()">
+          <span id="reauth-email" class="reauth-email"></span>
+          <input
+            type="email"
+            ng-model="userData.user_email"
+            id="inputEmail"
+            class="form-control"
+            placeholder="Email address"
+            required
+            autofocus
+          />
+          <input
+            type="password"
+            ng-model="userData.user_password"
+            id="inputPassword"
+            class="form-control"
+            placeholder="Password"
+            required
+          />
+          <div id="message" class="alert alert-danger" ng-if="fail">
+            {{message}}
+            <div ng-id="showRenew"><a href="#">Click Here to Renew.</a></div>
+          </div>
+          <div id="message" class="alert alert-info" ng-if="processing">
+            {{message}}
+          </div>
+          <button
+            class="btn btn-lg btn-primary btn-block btn-signin"
+            type="submit"
+          >
+            Sign In
+          </button>
+        </form>
+        <!-- /form -->
+        <a href="forgot-password.html" class="forgot-password">
+          Forgot the password
+          <span class="glyphicon glyphicon-question-sign"></span>
+        </a>
+        <div style="text-align: center; padding-top: 20px">
+          A
+          <a href="http://roaringstudios.com/" target="_blank"
+            >Roaring Studios</a
+          >
+          Product | Made in India
+        </div>
+      </div>
+      <!-- /card-container -->
+    </div>
+    <!-- /container -->
+    <script src="js/angular.min.js"></script>
+    <script src="js/angular-route.js"></script>
+    <!-- <script src="js/angular-main.js"></script> -->
+    <script src="v2-js/app-login.js"></script>
+
+    <!-- <script type="text/javascript" src="https://cdn.ywxi.net/js/1.js" async></script> -->
+    <!-- <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-59558447-6', 'auto');
+  ga('send', 'pageview');
+
+</script> -->
+  </body>
+</html>

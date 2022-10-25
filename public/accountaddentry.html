@@ -1,0 +1,167 @@
+<div class="container-fluid" data-ng-controller="account_entry">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="">
+                    <h1 class="panel-title" style=""><i class="fa fa-balance-scale fa-fw"></i>Accounts Entry</h1>
+                    <div class="pull-right">
+                    </div>
+                    <div class="clearfix">
+                    </div>
+                </div>
+                <div class="panel-body">
+                  <div class="container-fluid">
+
+
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-4 text-right control-label">Party Name:</label>
+                            <div class="col-sm-5 text-left">
+                                <h5>{{clientData.client_company_name}}</h5>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 text-right control-label">Balance:</label>
+                            <div class="col-sm-5 text-left">
+                                <h5 class="currency"> {{clientData.client_balance | inrFilter }}</h5>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 text-right control-label">Type of Entry:</label>
+                            <div class="bothradstyle">
+                              <label class="">
+                                  <input type="radio"  value="1" ng-model="entryType" autocomplete="off" checked="check" ng-change="calculateBalance()"> Payment Received </label>
+                                <label class="radstyle">
+                                    <input type="radio"  value="0" ng-model="entryType" name="options" id="option2" autocomplete="off" ng-change="calculateBalance()"> Return Payment
+                                </label>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-4 text-right control-label"  style="padding-top: 12px;">Date of Entry:</label>
+                            <div class="bothradstyle">
+                                <div class="col-sm-3">
+                                  <p class="input-group">
+                                    <input type="text" class="form-control" datetime-picker="dd MMM yyyy " ng-model="myDate2" is-open="isOpen" enable-time="false" datepicker-options="{maxDate: today}" ng-change="dateChanged()"  />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="openCalendar2($event, prop)"><i class="fa fa-calendar"></i></button>
+                                    </span>
+                                </p>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 text-right control-label"  style="padding-top: 12px;">Type of Entry:</label>
+                            <div class="bothradstyle">
+                                <div class="col-sm-2">
+                              <select class="form-control" ng-options="item for item in txnTypes" ng-model="txnSelected"></select>
+                              </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-show="txnSelected != 'Cash'">
+                            <label class="col-sm-4 text-right control-label" style="padding-top: 12px;">
+                              <span ng-show="txnSelected == 'Cheque'">Cheque No:</span>
+                              <span ng-show="txnSelected == 'NEFT'">  Transaction No:</span>
+                              <span ng-show="txnSelected == 'RTGS'">  Transaction No:</span>
+                              <span ng-show="txnSelected == 'Others'">Payment Name:</span>
+                              <span ng-show="txnSelected == 'UPI'">   Transaction No:</span>
+                            </label>
+                            <div class="bothradstyle">
+                                <div class="col-sm-5">
+                                    <input type="text" name="" class="form-control" ng-model="accountData.entry_transaction_number" ng-change="calculateBalance()">
+                              </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group" ng-class="{ 'has-error': userForm.product_price.$touched && userForm.product_price.$invalid }">
+            <label class="col-sm-4 text-right control-label">Amount:</label>
+            <div class="col-sm-5">
+              <div class="input-group ">
+                   <span class="input-group-addon" id="basic-addon1">&#8377;</span>
+                <input type="number" name="product_price" class="form-control" ng-model="amount"  step="any" required ng-change="calculateBalance()">
+              </div>
+                <div class="help-block" ng-messages="userForm.product_price.$error" ng-if="userForm.product_price.$touched">
+                    <p ng-message="minlength">Amount is too short.</p>
+                    <p ng-message="maxlength">Amount  is too long.</p>
+                    <p ng-message="required">Amount  is required.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-error': userForm.product_description.$touched && userForm.product_description.$invalid }">
+            <label class="col-sm-4 text-right control-label">Remarks:</label>
+            <div class="col-sm-5">
+                <textarea name="product_description" class="form-control" ng-model="accountData.entry_remarks"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-error': userForm.product_description.$touched && userForm.product_description.$invalid }">
+            <label class="col-sm-4 text-right control-label">New Balance:</label>
+            <div class="col-sm-5">
+                  <label class="col-sm-5 currency" style="padding-top: 7px;"> {{accountData.entry_balance | inrFilter}}</lable>
+            </div>
+        </div>
+
+        <div class="row" ng-show="entryType == 1">
+          <div class="col-sm-offset-2 col-sm-7">
+            <div class="table-responsive">
+
+
+                <table class="table table-bordered table-striped">
+                  <tr>
+                    <th>No.</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Balance</th>
+                    <th>Total</th>
+                  </tr>
+                    <tr ng-repeat="i in invoices">
+                      <td>{{i.invoice_data.number}}</td>
+                      <td>{{dateFormat(i.invoice_data.date)}}</td>
+                      <td><input type="number" step="any" ng-model="i.amount" size="5" class="form-control text-right" name="" value="" ng-change="inviDistribution()"></td>
+                      <td class="text-right currency">{{i.invoice_data.balance | inrFilter}}</td>
+                      <td class="text-right currency">{{i.invoice_data.grand_total | inrFilter}}</td>
+                    </tr>
+                  <tr>
+                    <td>-</td>
+                    <td>Advance</td>
+                    <td class="currency"> {{advance | inrFilter}}</td>
+                    <td>-</td>
+                    <td>-</td>
+                  </tr>
+                </table>
+                  </div>
+          </div>
+        </div>
+
+
+                <br>
+                <div class="row">
+
+                    <div class="col-sm-offset-4 col-sm-5">
+                      <div class="alert alert-danger" ng-show="stopForm">{{alertMessage}}</div>
+
+                        <button type='button'
+                        mwl-confirm
+                        title="Are you sure ?"
+                        message=""
+                        confirm-text="Yes <i class='glyphicon glyphicon-ok'></i>"
+                        cancel-text="No <i class='glyphicon glyphicon-remove'></i>"
+                        placement="right"
+                        on-confirm="submitForm()"
+                        on-cancel=""
+                        ng-disabled="userForm.$invalid || stopForm"  class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+      </div>
+</div>
+</div>
+</div>

@@ -1,0 +1,30 @@
+{
+  "name": "Paper Weight",
+  "short_name": "Paper Weight",
+  "icons": [{
+    "src": "img/diamond-icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    }, {
+      "src": "img/diamond-icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    }, {
+      "src": "img/diamond-icon-152.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    }, {
+      "src": "img/diamond-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }, {
+      "src": "img/diamond-icon-256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    }],
+  "start_url": "app-login.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#2d323e",
+  "theme_color": "#2d323e"
+}

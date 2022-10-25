@@ -1,0 +1,116 @@
+<div class="container-fluid" data-ng-controller="client_update">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="">
+                    <h1 class="panel-title" style=""><i class="fa fa-users fa-fw"></i> View Client</h1>
+                    <div class="pull-right">
+                    </div>
+                    <div class="clearfix">
+                    </div>
+                </div>
+                <div class="panel-body">
+               <form class="form-horizontal" name="userForm" novalidate ng-submit="submitForm()">
+        <div class="form-group" ng-class="{ 'has-error': userForm.client_company_name.$touched && userForm.client_company_name.$invalid }">
+            <label class="col-sm-4 text-right control-label">Company *</label>
+            <div class="col-sm-5" >
+              <!-- <label class="text-left control-label">{{clientData.client_company_name}}</label> -->
+                <input type="text"  name="client_company_name" class=" form-control" ng-model="clientData.client_company_name" ng-minlength="3"  required>
+                <div class="help-block" ng-messages="userForm.client_company_name.$error" ng-if="userForm.client_company_name.$touched">
+                    <div ng-message="minlength">Client Company Name is too short.</div>
+                    <div ng-message="maxlength">Client Company Name is too long.</div>
+                    <div ng-message="required">Client Company Name is required.</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': userForm.client_name.$touched && userForm.client_name.$invalid }">
+            <label class="col-sm-4 text-right control-label">Person Name *</label>
+            <div class="col-sm-5">
+                <input type="text" name="client_name" class="form-control" ng-model="clientData.client_name" ng-minlength="3"  required>
+                <div class="help-block" ng-messages="userForm.client_name.$error" ng-if="userForm.client_name.$touched">
+                    <div ng-message="minlength">Client Name is too short.</div>
+                    <div ng-message="maxlength">Client Name is too long.</div>
+                    <div ng-message="required">Client Name is required.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-error': userForm.client_address.$touched && userForm.client_address.$invalid }">
+            <label class="col-sm-4 text-right control-label">Client Address *</label>
+            <div class="col-sm-5">
+                <textarea  name="client_address" class="form-control" ng-model="clientData.client_address" required ></textarea>
+                <div class="help-block" ng-messages="userForm.client_address.$error" ng-if="userForm.client_address.$touched" >
+                    <div ng-message="minlength">Client Address is too short.</div>
+                    <div ng-message="maxlength">Client Address is too long.</div>
+                    <div ng-message="required">Client Address is required.</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': userForm.client_phone.$touched && userForm.client_phone.$invalid }">
+            <label class="col-sm-4 text-right control-label">Phone No. *</label>
+            <div class="col-sm-5">
+                <input type="text" name="client_phone" class="form-control" ng-model="clientData.client_phone"  ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/" required>
+                <div class="help-block" ng-messages="userForm.client_phone.$error" ng-if="userForm.client_phone.$touched">
+                    <div ng-message="minlength">Client Phone No. is too short. not a valid</div>
+                    <div ng-message="maxlength">Client Phone No. no is not a valid. too long</div>
+                    <div ng-message="required">Client Phone No. is required.</div>
+                    <div ng-message="pattern">Must be a valid 10 digit phone number</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': userForm.client_email.$touched && userForm.client_email.$invalid }">
+            <label class="col-sm-4 text-right control-label">Email *</label>
+            <div class="col-sm-5">
+                <input type="email" name="client_email" class="form-control" ng-model="clientData.client_email" ng-minlength="5" ng-maxlength="30" required required ng-pattern='/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/'>
+                <div class="help-block" ng-messages="userForm.client_email.$error" ng-if="userForm.client_email.$touched">
+
+                    <div ng-message="minlength">Email is too short</div>
+                    <div ng-message="maxlength">Email is too long</div>
+                    <div ng-message="required">Email is required</div>
+                    <div ng-message="email">This needs to be a valid email</div>
+                      <div ng-message="pattern">This needs to be a valid email</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': userForm.client_tin.$touched && userForm.client_tin.$invalid }">
+            <label class="col-sm-4 text-right control-label">Taxpayer Identification NO. (TIN)</label>
+            <div class="col-sm-5">
+                <input type="text" name="client_tin" class="form-control" ng-model="clientData.client_tin" ng-minlength="10" ng-maxlength="14" >
+                <div class="help-block" ng-messages="userForm.client_tin.$error" ng-if="userForm.client_tin.$touched">
+                    <div ng-message="minlength">Client tin no. is too short.</div>
+                    <div ng-message="maxlength">Client tin no. is too long.</div>
+                    <div ng-message="required">Client tin no. is required.</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': userForm.client_stn.$touched && userForm.client_stn.$invalid }">
+            <label class="col-sm-4 text-right control-label">Servce Tax No.</label>
+            <div class="col-sm-5">
+                <input type="text" name="client_stn" class="form-control" ng-model="clientData.client_stn" ng-minlength="10" ng-maxlength="14" >
+                <div class="help-block" ng-messages="userForm.client_stn.$error" ng-if="userForm.client_stn.$touched">
+                    <div ng-message="minlength">Client stn no. is too short.</div>
+                    <div ng-message="maxlength">Client stn no. is too long.</div>
+                    <div ng-message="required">Client stn no. is required.</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': userForm.client_notes.$touched && userForm.client_notes.$invalid }">
+            <label class="col-sm-4 text-right control-label">Client Notes</label>
+            <div class="col-sm-5">
+                <textarea name="client_notes" class="form-control" ng-model="clientData.client_notes"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-4 col-sm-5">
+                <button type="submit" ng-disabled="userForm.$invalid || !userForm.$dirty" class="btn btn-primary">Save Client</button>
+            </div>
+        </div>
+    </form>
+    </div>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- /.row -->
+</div>

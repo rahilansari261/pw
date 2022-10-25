@@ -1,47 +1,747 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- favicon -->
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
-    <!-- font awesome -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
-    />
-    <!-- normalize css -->
-    <link rel="stylesheet" href="./normalize.css" />
-    <!-- main css -->
-    <link rel="stylesheet" href="./main.css" />
-    <title>Task Manager || Final</title>
-  </head>
-  <body>
-    <form class="task-form">
-      <h4>task manager</h4>
-      <div class="form-control">
-        <input
-          type="text"
-          name="name"
-          class="task-input"
-          placeholder="e.g. wash dishes"
-        />
-        <button type="submit" class="btn submit-btn">submit</button>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Roaring Studios">
+    <link rel="manifest" href="manifest.json">
+    <title>Paperweight - A Roaring Studios Product</title>
+
+
+    <META NAME="Title" CONTENT="Paperweight | A Roaring Studios Product">
+    <META NAME="Keywords" CONTENT="Invoicing Software, Billing Software, Best Invoicing Software">
+    <META NAME="Description" CONTENT="Create Invoices, Track Payments and Much More">
+    <META NAME="Language" CONTENT="English">
+
+    <meta property="og:url"                content="https://paperweight.work/" />
+    <meta property="og:type"               content="business.business" />
+    <meta property="og:title"              content="Paperweight - A Roaring Studios Product" />
+    <meta property="og:description"        content="Create Invoices, Track Payments and Much More" />
+    <meta property="og:image"              content="https://paperweight.work/img/about-us.png" />
+
+    <!-- Loading Bootstrap -->
+    <link href="assets/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/style-magnific-popup.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="assets/css/font-awesome.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+
+    <!--headerIncludes-->
+
+</head>
+<body>
+
+    <header class="item header margin-top-0 padding-bottom-70" id="header1">
+
+        <div class="wrapper">
+
+            <div class="container">
+
+                <nav role="navigation" class="navbar navbar-default navbar-lg navbar-fixed-top">
+
+                    <div class="container">
+
+                        <div class="navbar-header">
+                            <button data-target="#navbar-collapse-02" data-toggle="collapse" class="navbar-toggle" type="button">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <a href="assets/#" class="navbar-brand brand"><img src="img/diamond-icon-128.png"  style="width: 30px;"/> Paperweight<span class="blue"> </span></a>
+                        </div>
+
+                        <div id="navbar-collapse-02" class="collapse navbar-collapse">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="#intro">Home</a></li>
+                                <li><a href="#services">Features</a></li>
+                                <li><a href="#about">About Us</a></li>
+                                <li><a href="#pricing_table1">Plans</a></li>
+                                <li><a href="#contact">Contact</a></li>
+                                <li><a href="app-login.html" style="color: #3f97f7">Login</a></li>
+                            </ul>
+                        </div><!-- /.navbar-collapse -->
+
+                    </div><!-- /.container -->
+
+                </nav>
+
+            </div><!-- /.container -->
+
+        </div><!-- /.wrapper -->
+
+    </header><!-- /.item -->
+
+    <div class="item intro3 no-margins" id="intro">
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-10 col-md-offset-1">
+
+
+
+                    <h2 class="intro-title3 editContent">Create Invoices, Track Payments and Much More</h2>
+
+                    <h3 class="intro-subtitle3 subtitle-padding editContent">Join the Billing Revolution</h3>
+
+                    <a href="#registration" class="btn btn-lg btn-margin btn-white" data-toggle="modal" data-target="#myModal">Register !</a>
+
+                    <a href="app-login.html" class="btn btn-lg btn-white">Login !</a>
+
+                </div><!-- /.col-md-8 -->
+
+            </div><!-- ./row -->
+
+        </div><!-- /.container -->
+
+    </div><!-- /.item -->
+
+    <div class="item content" id="services">
+
+        <div class="container">
+
+            <div class="row text-center padding-bottom-60">
+
+                <div class="col-md-8 col-md-offset-2">
+
+                        <h2 class="section-title-white editContent">Amazing Features</h2>
+
+                        <div class="separator_wrapper">
+                            <div class="separator_first_circle">
+                                <div class="separator_second_circle">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <h3 class="section-subtitle-white editContent">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration, by injected humour, or new randomised words which don't look believable.</h3> -->
+
+                </div><!-- /col-md-8 -->
+
+            </div><!-- /.row -->
+
+            <div class="row">
+
+                <div class="col-md-4 services2">
+
+                    <div class="row margin-bottom-20">
+
+                        <div class="col-md-3">
+                            <img src="assets/images/icons/icon2.png" class="width-100" alt="pic">
+                        </div>
+
+                        <div class="col-md-9 text-left editContent">
+                            <h4 class="editContent">Easy Invoicing</h4>
+                            <p class="editContent">
+                              Create Invoices in three easy steps and manage your debtors on the go, from anywhere in the world.
+
+                            </p>
+                        </div>
+
+                    </div><!-- /.row -->
+
+                    <div class="row margin-bottom-20">
+
+                        <div class="col-md-3">
+                            <img src="assets/images/icons/icon6.png" class="width-100" alt="pic">
+                        </div>
+
+                        <div class="col-md-9 text-left editContent">
+                            <h4 class="editContent">Responsive Design</h4>
+                            <p class="editContent">
+                              Our application’s responsive design makes it easy for the user to navigate it on all devices and platforms.
+                            </p>
+                        </div>
+
+                    </div><!-- /.row -->
+
+
+
+                </div><!-- /.col-md-4 -->
+
+                <div class="col-md-4 services2">
+
+                    <div class="row margin-bottom-20">
+
+                        <div class="col-md-3">
+                            <img src="assets/images/icons/icon4.png" class="width-100" alt="pic">
+                        </div>
+
+                        <div class="col-md-9 text-left editContent">
+                            <h4 class="editContent">Payment Tracking</h4>
+                            <p class="editContent">
+                              Keep a detailed track of payments and record entire transaction history for future references.
+                            </p>
+                        </div>
+
+                    </div><!-- /.row -->
+
+                    <div class="row margin-bottom-20">
+
+                        <div class="col-md-3">
+                            <img src="assets/images/icons/icon9.png" class="width-100" alt="pic">
+                        </div>
+
+                        <div class="col-md-9 text-left editContent">
+                            <h4 class="editContent">Regular Support </h4>
+                            <p class="editContent">
+                              We have a dedicated team of professionals who care about you and are here for your regular support.
+                            </p>
+                        </div>
+
+                    </div><!-- /.row -->
+
+
+
+                </div><!-- /.col-md-4 -->
+
+                <div class="col-md-4 services2">
+
+                    <div class="row margin-bottom-20">
+
+                        <div class="col-md-3">
+                            <img src="assets/images/icons/icon3.png" class="width-100" alt="pic">
+                        </div>
+
+                        <div class="col-md-9 text-left editContent">
+                            <h4 class="editContent">Insightful Reports</h4>
+                            <p class="editContent">
+                              View your sales history as consolidated reports with intuitive graphs and export them in excel at your leisure.
+                            </p>
+                        </div>
+
+                    </div><!-- /.row -->
+
+                    <div class="row margin-bottom-20">
+
+                        <div class="col-md-3">
+                            <img src="assets/images/icons/icon1.png" class="width-100" alt="pic">
+                        </div>
+
+                        <div class="col-md-9 text-left editContent">
+                            <h4 class="editContent">Constantly Updated</h4>
+                            <p class="editContent">
+                              Our User Interface is constantly updated with modern and useful features to meet the requirements of our users.
+                            </p>
+                        </div>
+
+                    </div><!-- /.row -->
+
+
+
+                </div><!-- /.col-md-4 -->
+
+            </div><!-- ./row -->
+
+        </div><!-- /.container -->
+
+    </div><!-- /.item -->
+
+    <div class="item newsletter_wrapper" id="newsletter">
+
+        <div class="container">
+
+            <div class="newsletter_box">
+
+              <div class="row">
+
+                    <div class="col-md-3">
+
+                        <img src="assets/images/email.png" alt="picture" class="padding-top-45">
+
+                    </div>
+                    <!--end col-md-3 -->
+
+                    <div class="col-md-9">
+
+                        <!--begin newsletter_info -->
+                        <div class="newsletter_info">
+
+                            <h2 class="editContent">Sing up for Our Newsletter !</h2>
+
+                            <p class="editContent">We love to innovate and create new products. Sign up to get attractive offers on the vast range of Products and Services.</p>
+
+                            <!--begin success_box -->
+                            <p class="newsletter_success_box" style="display:none;">We received your message and you'll hear from us soon. Thank You!</p>
+                            <!--end success_box -->
+
+                            <!--begin newsletter-form -->
+                            <form id="newsletter-form" class="newsletter_form" action="newsletter" method="post">
+                                <input id="email_newsletter" name="nf_email" placeholder="Enter Your Email Address" type="email">
+                                <input value="GET STARTED!" id="submit-button-newsletter" type="submit">
+                            </form>
+                            <!--end newsletter-form -->
+
+                        </div>
+                        <!--end newsletter_info -->
+
+                    </div>
+                    <!--end col-md-9 -->
+
+                </div>
+                <!--end row -->
+
+            </div>
+            <!--end newsletter_box -->
+
+        </div><!-- /.container -->
+
+    </div><!-- /.item -->
+
+    <div class="item content" id="about">
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-5">
+
+                    <img src="img/about-us.png" alt="picture" class="width-100">
+
+                </div><!-- /.col-md-5 -->
+
+                <div class="col-md-7">
+
+                    <h2 class="editContent">Our Story</h2>
+
+                    <p class="editContent">Those who wish to start pursuing their dreams should do so daringly and without having to worry about the cost of their dreams. Our vision was to provide a resource rich and intuitive platform for anyone who dares to start their own Business. We are proud to introduce Paperweight Invoices at just &#8377; 649 Per Year.</p>
+
+                    <!--begin featured_dropcap -->
+                    <div class="featured_dropcap">
+                        <span class="fa fa-leaf dropcaps_icon"></span>
+                        <p class="editContent">No hassles of hours long configuration. No need for multiple tutorials. Just spend 2 minutes on a demo or call us &amp; all your future Invoicing needs will be met.</p>
+                    </div>
+                    <!--end featured_dropcap -->
+
+                    <!--begin featured_dropcap -->
+                    <div class="featured_dropcap">
+                        <span class="fa fa-thumbs-up dropcaps_icon"></span>
+                        <p class="editContent">Paperweight Invoices is a highly intuitive and responsive platform for easy invoicing on all devices and tracking of payments, all at your leisure.</p>
+                    </div>
+                    <!--end featured_dropcap -->
+
+                    <!--begin featured_dropcap -->
+                    <div class="featured_dropcap">
+                        <span class="fa fa-laptop dropcaps_icon"></span>
+                        <p class="editContent">We provide you your preferred comfort of creating an Invoice at your fingertips while maintaining paramount security &amp; regular backups.</p>
+                    </div>
+                    <!--end featured_dropcap -->
+
+                </div><!-- /.col-md-7 -->
+
+            </div><!-- ./row -->
+
+        </div><!-- /.container -->
+
+    </div><!-- /.item -->
+
+    <hr>
+
+
+
+
+    <div class="item pricing no-margins" id="pricing_table1">
+
+        <div class="pricing-bg1">
+
+            <div class="container">
+
+                <div class="row text-center">
+
+                    <div class="col-md-8 col-md-offset-2">
+
+                        <h3 class="pricing-title editContent">The Great Offer</h3>
+
+                        <p class="pricing-subtitle editContent">Choices are difficult so we have made it simple for you. We have just one plan, offering the complete potential of our product. Sign up with the Inaugural Plan and enjoy the lifetime price of &#8377; 649 only.</p>
+
+                    </div><!-- /.col-md-12 -->
+
+                </div><!-- ./row -->
+
+                <div class="row">
+
+                    <div class="col-md-3">
+
+
+
+                    </div><!-- /.col-md-3 col -->
+
+                    <div class="col-md-3">
+                      <div class="ribbon-wrapper">
+                        <div class="ribbon-green">Best Deal</div>
+                      </div>
+                        <div class="pricing2">
+
+                            <div class="top">
+
+                                <h2 class="editContent">Inaugural PLAn</h2>
+
+                                <p class="price"><span class="currency lyla editContent">&#8377;</span> <b class="lyla editContent">649</b> <span class="month lyla editContent">per year</span></p>
+
+                            </div><!-- /.top -->
+
+                            <div class="bottom">
+
+                                <div class="editContent">
+                                <ul>
+                                  <li>14 Day Free Trial</li>
+                                  <li>Unlimited Invoices</li>
+                                  <li>Unlimited Clients</li>
+                                  <li>Unlimited Products</li>
+                                  <li>For PC’s, Mobiles &amp; Laptops</li>
+                                  <li>GST Ready</li>
+
+                                </ul>
+                                </div><!-- /.editContent -->
+
+                                <a href="#subscription" class="btn btn-md btn-block btn-lyla"  data-toggle="modal" data-target="#myModal">Subscribe Today</a>
+
+                            </div><!-- /.bottom -->
+
+                        </div><!-- /.pricing2 -->
+
+                    </div><!-- /.col-md-3 col -->
+
+                    <div class="col-md-3">
+
+
+
+                        <div class="pricing2">
+
+                            <div class="top">
+
+                                <h2 class="editContent">Regular Plan</h2>
+
+                                <p class="price"><span class="currency green editContent">&#8377;</span> <b class="green editContent">1250</b> <span class="month green editContent">p/year</span></p>
+
+                            </div><!-- /.top -->
+
+                            <div class="bottom">
+
+                                <div class="editContent">
+                                  <ul>
+                                    <li>14 Day Free Trial</li>
+                                    <li>Unlimited Invoices</li>
+                                    <li>Unlimited Clients</li>
+                                    <li>Unlimited Products</li>
+                                    <li>For PC’s, Mobiles &amp; Laptops</li>
+                                    <li>GST Ready</li>
+                                  </ul>
+                                </div><!-- /.editContent -->
+
+                                <a href="#commingsoon" class="btn btn-md btn-block btn-green">Coming Soon</a>
+
+                            </div><!-- /.bottom -->
+
+                        </div><!-- /.pricing2 -->
+
+                    </div><!-- /.col-md-3 col -->
+
+                    <div class="col-md-3">
+
+
+
+                    </div><!-- /.col-md-3 col -->
+
+                </div><!-- /.row -->
+
+            </div><!-- /.container -->
+
+        </div><!-- /.pricing-bg -->
+
+    </div><!-- /.item -->
+
+
+
+    <div class="item dark contact" id="contact">
+
+        <div class="container">
+
+            <div class="row text-center margin-bottom-60">
+
+                <div class="col-md-8 col-md-offset-2">
+
+                        <h2 class="section-title-dark editContent">Get In Touch</h2>
+
+                        <div class="separator_wrapper">
+                            <div class="separator_first_circle">
+                                <div class="separator_second_circle">
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3 class="section-subtitle-dark editContent">We love solving your problems. So feel free to contact us anytime and we will <br>get back to you within 24 hours.</h3>
+
+                    </div><!-- /.col-md-8 -->
+
+            </div><!-- /.row -->
+
+            <div class="row text-center">
+
+                <div class="col-md-10 col-md-offset-1">
+
+                    <!--begin success message -->
+                    <p class="contact_success_box" style="display:none;">We received your message and you'll hear from us soon. Thank You!</p>
+                    <!--end success message -->
+
+                    <!--begin contact form -->
+                    <form id="contact-form" class="contact" action="contactus" method="post">
+                        <input class="contact-input white-input" required="" name="contact_names" placeholder="Full Name*" type="text">
+                        <input class="contact-input white-input" required="" name="contact_email" placeholder="Email Adress*" type="email">
+                        <textarea class="contact-commnent white-input" rows="2" cols="20" name="contact_message" placeholder="Your Message..."></textarea>
+                        <input value="Send Message" id="submit-button" class="contact-submit" type="submit">
+                    </form>
+                    <!--end contact form -->
+
+                </div><!-- ./col-md-12 -->
+
+            </div><!-- /.row -->
+
+        </div><!-- /.container -->
+
+    </div><!-- /.item -->
+
+    <div class="footerWrapper" id="footer1">
+
+        <div class="footer dark">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3 text-center social">
+                        <p><span class="editContent"><a href="GeneralTermsPaperweight.pdf" target="_blank" class="author" >General Terms</a> | <a href="PrivacyPolicy.pdf" target="_blank" class="author">Privacy Policy</a></span> </p>
+                        <p><span class="editContent">Engineered With Love By </span> <a href="http://roaringstudios.com/" target="_blank" class="author">Roaring Studios</a>.</p>
+
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div>
+
+        </div><!-- /.footer -->
+
+    </div><!-- /.footerWrapper -->
+
+
+    <!-- Load JS here for greater good =============================-->
+    <script src="assets/js/jquery-1.11.3.min.js"></script>
+    <script src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/bootstrap-select.js"></script>
+    <script src="assets/js/bootstrap-switch.js"></script>
+    <script src="assets/js/responsiveslides.min.js"></script>
+    <script src="assets/js/jquery.scrollTo-min.js"></script>
+    <script src="assets/js/jquery.nav.js"></script>
+    <script src="assets/js/jquery.magnific-popup.min.js"></script>
+
+	<!-- begin layerslider script-->
+    <script src="assets/js/greensock.js"></script>
+    <script src="assets/js/layerslider.transitions.js"></script>
+    <script src="assets/js/layerslider.kreaturamedia.jquery.js"></script>
+
+    <script src="assets/js/custom.js"></script>
+    <script type="text/javascript" src="https://cdn.ywxi.net/js/1.js" async></script>
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-59558447-6', 'auto');
+    ga('send', 'pageview');
+
+    </script>
+
+    <!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog" ng-app="pw">
+
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Register Here</h4>
       </div>
-      <div class="form-alert"></div>
-    </form>
-    <section class="tasks-container">
-      <p class="loading-text">Loading...</p>
-      <div class="tasks"></div>
-    </section>
-    <!-- axios -->
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
-      integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script src="./browser-app.js"></script>
-  </body>
-</html>
+      <div class="modal-body" ng-controller="registration">
+        <form id="myForm" name="myForm" style="display: block;" novalidate>
+            <div class="form-group">
+                <br>Note: Company Name Once Added Can Not Be Changed.<br><br>
+                <input type="text" name="companyname" id="companyname" tabindex="1" class="form-control" placeholder="Company Name" value="" ng-model="company_name" required >
+
+                <span style="color:red" ng-show="myForm.companyname.$touched && myForm.companyname.$invalid">
+                    <span ng-show="myForm.companyname.$error.required">Company Name is required.</span>
+                </span>
+            </div>
+
+            <div class="form-group">
+                <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="" ng-model="email" required>
+                <span style="color:red" ng-show="myForm.email.$touched && myForm.email.$invalid">
+                    <span ng-show="myForm.email.$error.required">Email is required.</span>
+                    <span ng-show="myForm.email.$error.email">Invalid email address.</span>
+                </div>
+                <div class="form-group" >
+                    <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password"
+                    ng-minlength="6" ng-maxlength="20" ng-model="password"
+                    required >
+                    <span style="color:red" ng-show="myForm.password.$error.required && myForm.password.$touched">Password is required</span>
+                    <span style="color:red" ng-show="!myForm.password.$error.required && (myForm.password.$error.minlength || myForm.password.$error.maxlength) && myForm.password.$touched">Passwords must be between 6 and 20 characters.</span>
+
+
+                </div>
+
+                <div class="form-group" >
+                    <input type="password" name="password_c" id="password_c" tabindex="2" class="form-control" placeholder="Confirm Password" ng-model="password_c"  valid-password-c required>
+                    <span style="color:red" ng-show="myForm.password_c.$error.required && myForm.password_c.$touched">Please confirm your password.</span>
+                    <span style="color:red" ng-show="!myForm.password_c.$error.required && myForm.password_c.$error.noMatch && myForm.password.$touched">Passwords do not match.</span>
+                </div>
+
+
+            <!-- <div class="form-group">
+
+          <div class="g-recaptcha"  tabindex="3" vc-recaptcha data-sitekey="6LfMPCAUAAAAAPIvM07XTg92fJEM8FXVUal15iU7"></div>
+          <br>
+
+          </div> -->
+
+          <div class="form-group">
+        <div class=" col-sm-offset-2 col-lg-8">
+        <div id="message" class=""  ng-class="{'alert alert-success': (success == true),'alert alert-danger': (success == false)}" ng-show="showMe">{{message}}</div>
+        </div>
+        </div>
+
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3">
+                            <input  type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-success" value="Register Now" ng-click="sendData()">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        <!-- <p>For Manual Registration call us on 9166222000.</p> -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<script src="js/angular.min.js"></script>
+<!-- <script src='https://www.google.com/recaptcha/api.js'></script> -->
+<script type="text/javascript">
+var app = angular.module("pw", ['UserValidation' ]);
+app.controller("registration",  function($scope, $http) {
+$scope.regData;
+$scope.sendData = function(){
+if($scope.company_name == null){
+    $scope.message = "Company Name is required";
+    $scope.showMe = true;
+    $scope.success = false;
+    return;
+}
+if($scope.email == null){
+    $scope.message = "Email is required";
+    $scope.showMe = true;
+    $scope.success = false;
+
+    return;
+}
+if($scope.password == null){
+    $scope.message = "Password is required";
+    $scope.showMe = true;
+    $scope.success = false;
+
+    return;
+}
+
+if($scope.password == $scope.password_c ){
+    $scope.showMe = false;
+    return;
+}
+// if(!grecaptcha){
+//   return;
+// }
+// if(grecaptcha.getResponse() === ""){
+//   $scope.message = "Solve the Re-Captcha";
+//   $scope.showMe = true;
+//   $scope.success = false;
+// }
+// else {
+//     $scope.regData = {
+//     "company_name": $scope.company_name,
+//     // "user_name": $scope.user_name,
+//     "email": $scope.email,
+//     "user_password" : $scope.password,
+//     "user_password_c": $scope.password,
+//     "recap" : grecaptcha.getResponse()
+// }
+$scope.regData = {
+    "company_name": $scope.company_name,
+    // "user_name": $scope.user_name,
+    "email": $scope.email,
+    "user_password" : $scope.password,
+    "user_password_c": $scope.password,
+    "recap" : 'recap'
+}
+// console.log($scope.regData);
+// return;
+$scope.message = "Processing Please Wait...";
+$scope.showMe = true;
+$scope.success = true;
+$http({
+    method  : 'POST',
+    url: 'user/register2',
+    data    : $scope.regData
+})
+.success(function(data) {
+
+    if(data.success == true){
+        // console.log(data);
+      $scope.message = data.message;
+      $scope.showMe = true;
+      $scope.success = true;
+    }
+    else{
+      $scope.showMe = true;
+      $scope.success = false;
+        // console.log(data);
+        $scope.message = data.message;
+    }
+});
+
+}
+
+}
+);
+
+angular.module('UserValidation', []).directive('validPasswordC', function () {
+return {
+    require: 'ngModel',
+    link: function (scope, elm, attrs, ctrl) {
+        ctrl.$parsers.unshift(function (viewValue, $scope) {
+            var noMatch = viewValue != scope.myForm.password.$viewValue
+            ctrl.$setValidity('noMatch', !noMatch)
+        })
+    }
+}
+})
+
+</script>
+</body></html>

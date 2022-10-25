@@ -1,0 +1,183 @@
+<div class="container-fluid " data-ng-controller="invoice_step_3">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="">
+                    <h1 class="panel-title" style=""><i class="fa fa-sticky-note fa-fw"></i>Create Invoice Step 3 of 3 <small>(Check and Confirm)</small></h1>
+                    <div class="pull-right">
+                        <!-- <a href="#" class="btn btn-success btn-sm">New Order</a> -->
+                        <!-- <a href="#/productadd" class="btn btn-success btn-sm  text-right">Add New Products</a> -->
+                    </div>
+                    <div class="clearfix">
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="container" style="width: 100%; overflow-x: auto;">
+
+                        <div class="invoicePrint">
+                          <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-lg-12" >
+                                  <div class="">
+                              <table class="table invoicetable">
+
+                              <tr>
+                                <td class="userInfo">
+
+                                    Invoice #: <br>
+                                  Date: {{date}}</td>
+                                </td>
+
+                                  <td class="">  <h1 class="hugeHeading text-right" style="font-size: 46px;">Tax Invoice</h1></td>
+
+                              </tr>
+                              <!-- <tr>
+                                <td colspan="2" align="left">  <span class="headingInfo">{{userData.user_company_name}}</span></td>
+                              </tr> -->
+                              <tr>
+                                <td class="userInfo" style="vertical-align: bottom;">
+                                  <!-- <span class="headingPlaceHolder">Seller's Details:</span><br> -->
+                                  <span class="headingInfo" style="text-transform: uppercase;">{{userData.user_company_name}} </span><br>
+                                  {{userData.user_address}}<br>
+                                  Phone. {{userData.user_phone}}<br>
+                                  <span ng-if="userData.user_tin">TIN: {{userData.user_tin}}<br></span>
+                                  <span ng-if="userData.user_stn">Service Tax: {{userData.user_stn}}<br></span>
+                                </td>
+
+                                <td class="userInfo">
+                                  <span class="headingPlaceHolder">Client's Details:</span><br>
+                                  <span class="headingInfo">{{clientData.client_company_name}}</span><br>
+                                    {{clientData.client_address}}<br>
+                                    Phone. {{clientData.client_phone}}<br>
+                                    <span ng-if="clientData.client_tin">TIN: {{clientData.client_tin}}<br></span>
+                                    <span ng-if="clientData.client_stn">Service Tax: {{clientData.client_stn}}<br></span>
+                                </td>
+
+                              </tr>
+                              </table>
+                            </div>
+
+                              </div>
+
+                          </div>
+
+
+                            <div class="row">
+                              <div class="col-lg-12" >
+                              <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Product Name</th>
+                                        <th width="90">Price (&#8377;)</th>
+                                        <th width="90">Quantity</th>
+                                        <!-- <th width="90">Discount (&#8377;)</th> -->
+                                        <th width="105">Tax (%)</th>
+                                        <th width="105" >Total (&#8377;)</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                      <tr ng-repeat="product in product_data">
+                                        <td>{{product.product_name}}<br><small>{{product.product_desc}}</small></td>
+                                        <td class="text-right currency">{{product.product_price.toFixed(2)}}</td>
+                                        <td class="text-right currency">{{product.qty}} {{product.product_unit}}</td>
+                                        <!-- <td class="text-right">{{product.discount.toFixed(2)}}</td> -->
+                                        <td class="text-right "><span ng-if="product.tax_amount==0">-</span><span  ng-if="product.tax_amount>0"><span class="currency">{{product.tax_amount.toFixed(2)}}</span><br><small>{{product.tax_name}}</small></span></td>
+                                        <td class="text-right currency">{{product.row_total | inrFilter}} </td>
+                                      </tr>
+
+                                      <tr>
+                                          <td colspan="3" rowspan="4">
+                                            <b>Terms &amp; Conditions:</b><br>
+                                          <div ng-bind-html="user_tc"></div>
+
+                                          </td>
+                                          <td class="text-right">
+                                            Sub Total<br>
+                                          </td>
+
+                                          <td class="text-right currency">
+                                          {{invoice_data.sub_total  | inrFilter}}
+                                          </td>
+                                      </tr>
+
+                                      <tr>
+                                        <td class="text-right">
+                                            <small><b>Tax Summary</b></small><br>
+                                          <span ng-repeat=" tax in invoice_data.tax_summary"> {{tax.tax_name}} <br></span>
+                                        </td>
+                                        <td class="text-right currency">
+                                        <br>
+                                         <span ng-repeat=" tax in invoice_data.tax_summary"> {{tax.tax_amount | inrFilter }} <br></span>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                      <td class="text-right">
+                                          Discount
+
+                                      </td>
+                                      <td class="text-right currency">
+                                       {{invoice_data.discount | inrFilter}}
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td class="text-right">
+                                          Grand Total
+
+                                      </td>
+                                      <td class="text-right currency">
+                                    {{invoice_data.grand_total | inrFilter}}
+                                      </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                              </div>
+
+                              <div class="col-lg-pull-12 text-left" style="padding-bottom:5px; font-size: 70%; padding: 0 20px 5px 20px;">
+                                This is a Computer Generated Document, No Signature Required. <span class="pull-right"> Paper Weight | Roaring Studios Product</span>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+
+                    <div class="container-fluid" ng-show="clientData.balance > 0">
+                      <div class="row hidden-print" style="padding-top: 20px;">
+                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+                                Your client {{clientData.client_name}} has paid advance amount of &#8377; {{clientData.balance*-1 }}.<br>
+                                 Do you wish to adjust this amount into Invoice's balance ?
+                                 <input type="checkbox" ng-model="invoice_data.advancePayment">
+                          </div>
+                      </div>
+                    </div>
+
+                    <div class="row hidden-print" style="padding-top: 20px;">
+                        <div class="form-group">
+                            <div class=" col-sm-offset-3 col-sm-1">
+
+                            </div>
+                            <div class=" col-sm-6">
+                              <a href="#/invoiceadd2" class="btn btn-primary">Previous Step</a>
+                                <!-- <a href="#/invoiceadd3" class="btn btn-primary">Create Invoice</a> -->
+                                <button type="submit" ng-disabled="product_data.length < 1 || stopForm" class="btn btn-primary"
+                                mwl-confirm
+                                title="Are you sure ?"
+                                message=""
+                                confirm-text="Yes <i class='glyphicon glyphicon-ok'></i>"
+                                cancel-text="No <i class='glyphicon glyphicon-remove'></i>"
+                                placement="top"
+                                on-confirm="createInvoice()"
+                                on-cancel=""
+                                >Create Invoice</button>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
