@@ -7,6 +7,9 @@ require('dotenv').config()
 const notFound = require('./middleware/not-found')
 const errorHandlerMiddleware = require('./middleware/error-handler')
 
+// variables
+app.set('superSecret', process.env.SECRET)
+
 // middleware
 
 app.use(express.static('./public'))
