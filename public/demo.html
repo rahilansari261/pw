@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+        <style >
+            body {
+    padding-top: 90px;
+}
+.panel-login {
+    border-color: #ccc;
+    -webkit-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
+}
+.panel-login>.panel-heading {
+    color: #00415d;
+    background-color: #fff;
+    border-color: #fff;
+    text-align:center;
+}
+.panel-login>.panel-heading a{
+    text-decoration: none;
+    color: #666;
+    font-weight: bold;
+    font-size: 15px;
+    -webkit-transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+}
+.panel-login>.panel-heading a.active{
+    color: #029f5b;
+    font-size: 18px;
+}
+.panel-login>.panel-heading hr{
+    margin-top: 10px;
+    margin-bottom: 0px;
+    clear: both;
+    border: 0;
+    height: 1px;
+    background-image: -webkit-linear-gradient(left,rgba(0, 0, 0, 0),rgba(0, 0, 0, 0.15),rgba(0, 0, 0, 0));
+    background-image: -moz-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+    background-image: -ms-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+    background-image: -o-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+}
+.panel-login input[type="text"],.panel-login input[type="email"],.panel-login input[type="password"] {
+    height: 45px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    -webkit-transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+/*  margin-top: -15px;
+*/}
+.panel-login input:hover,
+.panel-login input:focus {
+    outline:none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border-color: #ccc;
+}
+.btn-login {
+    background-color: #59B2E0;
+    outline: none;
+    color: #fff;
+    font-size: 14px;
+    height: auto;
+    font-weight: normal;
+    padding: 14px 0;
+    text-transform: uppercase;
+    border-color: #59B2E6;
+}
+.btn-login:hover,
+.btn-login:focus {
+    color: #fff;
+    background-color: #53A3CD;
+    border-color: #53A3CD;
+}
+.forgot-password {
+    text-decoration: underline;
+    color: #888;
+}
+.forgot-password:hover,
+.forgot-password:focus {
+    text-decoration: underline;
+    color: #666;
+}
+
+.btn-register {
+    background-color: #1CB94E;
+    outline: none;
+    color: #fff;
+    font-size: 14px;
+    height: auto;
+    font-weight: normal;
+    padding: 14px 0;
+    text-transform: uppercase;
+    border-color: #1CB94A;
+}
+.btn-register:hover,
+.btn-register:focus {
+    color: #fff;
+    background-color: #1CA347;
+    border-color: #1CA347;
+}
+
+.help_box{
+    text-decoration-color:red;
+}
+
+        </style>
+    </head>
+    <body ng-app="pw">
+        <div class="container" ng-controller="registration">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="panel panel-login">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <a href="#" class="active" >Registration</a>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div>
+                                        <form id="myForm" name="myForm" style="display: block;" novalidate>
+                                            <div class="form-group">
+                                                <br>Note: Company Name Once Added Can Not Be Changed.<br><br>
+                                                <input type="text" name="companyname" id="companyname" tabindex="1" class="form-control" placeholder="Company Name" value="" ng-model="company_name" required >
+
+                                                <span style="color:red" ng-show="myForm.companyname.$touched && myForm.companyname.$invalid">
+                                                    <span ng-show="myForm.companyname.$error.required">Company Name is required.</span>
+                                                </span>
+                                            </div>
+                                            <!-- <div class="form-group">
+                                                <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="" ng-model="user_name" required>
+                                                <span style="color:red" ng-show="myForm.username.$dirty && myForm.username.$invalid">
+                                                    <span ng-show="myForm.username.$error.required">User Name is required.</span>
+                                                </span>
+                                            </div> -->
+                                            <div class="form-group">
+                                                <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="" ng-model="email" required>
+                                                <span style="color:red" ng-show="myForm.email.$touched && myForm.email.$invalid">
+                                                    <span ng-show="myForm.email.$error.required">Email is required.</span>
+                                                    <span ng-show="myForm.email.$error.email">Invalid email address.</span>
+                                                </div>
+                                                <div class="form-group" >
+                                                    <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password"
+                                                    ng-minlength="6" ng-maxlength="20" ng-model="password"
+                                                    required >
+                                                    <span style="color:red" ng-show="myForm.password.$error.required && myForm.password.$touched">Password is required</span>
+                                                    <span style="color:red" ng-show="!myForm.password.$error.required && (myForm.password.$error.minlength || myForm.password.$error.maxlength) && myForm.password.$touched">Passwords must be between 8 and 20 characters.</span>
+
+
+                                                </div>
+
+                                                <div class="form-group" >
+                                                    <input type="password" name="password_c" id="password_c" tabindex="2" class="form-control" placeholder="Confirm Password" ng-model="password_c"  valid-password-c required>
+                                                    <span style="color:red" ng-show="myForm.password_c.$error.required && myForm.password_c.$touched">Please confirm your password.</span>
+                                                    <span style="color:red" ng-show="!myForm.password_c.$error.required && myForm.password_c.$error.noMatch && myForm.password.$touched">Passwords do not match.</span>
+                                                </div>
+                                                <div class="form-group">
+      <div class=" col-sm-offset-2 col-lg-8">
+         <div id="message" class=""  ng-class="{'alert alert-success': (success == true),'alert alert-danger': (success == false)}" ng-show="showMe">{{message}}</div>
+     </div>
+     </div>
+
+
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-sm-6 col-sm-offset-3">
+                                                            <input  id="register-submit" tabindex="4" class="form-control btn btn-register" value="Register Now" ng-click="sendData()">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script src="js/angular.min.js"></script>
+<script type="text/javascript">
+    var app = angular.module("pw", ['UserValidation']);
+app.controller("registration", function($scope, $http) {
+    $scope.regData;
+$scope.sendData = function(){
+    if($scope.company_name == null){
+        $scope.message = "Company Name is required";
+        $scope.showMe = true;
+        $scope.success = false;
+        return;
+    }
+    // if($scope.user_name == null){
+    //     $scope.message = "User Name is required";
+    //     $scope.showMe = true;
+    //     $scope.success = false;
+    //
+    //     return;
+    // }
+    if($scope.email == null){
+        $scope.message = "Email is required";
+        $scope.showMe = true;
+        $scope.success = false;
+
+        return;
+    }
+    if($scope.password == null){
+        $scope.message = "Password is required";
+        $scope.showMe = true;
+        $scope.success = false;
+
+        return;
+    }
+    // if($scope.password_c == null){
+    //  $scope.message = "Password does not match";
+    //  $scope.showMe = true;
+    //  $scope.success = false;
+
+    //  return;
+    // }
+    if($scope.password == $scope.password_c ){
+        $scope.showMe = false;
+        return;
+    }
+else {
+        $scope.regData = {
+        "company_name": $scope.company_name,
+        "user_name": $scope.user_name,
+        "email": $scope.email,
+        "password" : $scope.password,
+        "password_c": $scope.password
+    }
+    console.log($scope.regData);
+    $http({
+        method  : 'POST',
+        url: '/user/register',
+        data    : $scope.regData
+    })
+    .success(function(data) {
+        if(data.success == true){
+          $scope.message = data.message;
+          $scope.showMe = false;
+          $scope.success = true;
+        }
+        else{
+            $scope.processing = false;
+            $scope.fail = true;
+            // console.log(data);
+            $scope.message = data.message;
+        }
+    });
+}
+
+}
+});
+
+angular.module('UserValidation', []).directive('validPasswordC', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, elm, attrs, ctrl) {
+            ctrl.$parsers.unshift(function (viewValue, $scope) {
+                var noMatch = viewValue != scope.myForm.password.$viewValue
+                ctrl.$setValidity('noMatch', !noMatch)
+            })
+        }
+    }
+})
+
+
+</script>
+          </body>
+    </html>

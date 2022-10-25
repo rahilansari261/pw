@@ -1,0 +1,135 @@
+<div class="container-fluid" data-ng-controller="settings_update">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="">
+                    <h1 class="panel-title" style=""><i class="fa fa-gear fa-fw"></i> Settings</h1>
+                    <div class="pull-right">
+                        <div class="btn-group">
+                            <a href="#/profile/" class="btn btn-primary" data-ng-class="{'active': (section=='profile' )}">Profile</a>
+                            <a href="#/settingsadd" class="btn btn-primary" data-ng-class="{'active': (section=='settingsadd' )}">Settings</a>
+                            <a href="#/password" class="btn btn-primary" data-ng-class="{'active': (section=='password' )}">Password</a>
+                            <a href="#/subscribtions" class="btn btn-primary" data-ng-class="{'active': (section=='subscribtions' )}">Subscription</a>
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                    </div>
+                </div>
+                <div class="panel-body ">
+                    <div class="container-fluid">
+                        <form class="form-horizontal" name="userForm" novalidate ng-submit="submitForm()">
+                            <div class="row ">
+                                <div class="col-lg-7 ">
+                                    <div class="form-group ">
+                                        <label for="comment ">Terms &amp; Conditions:</label>
+                                        <textarea class="form-control " ng-model="userData.user_settings.user_tc" rows="7 " id="comment " placeholder="These are terms and condition you can change it for this invoice if you want. "></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row ">
+                                <div class="form-group ">
+                                    <div class=" col-sm-2 ">
+                                        <button type="submit" ng-disabled="userForm.$invalid" class="btn btn-primary">Save T&amp;C</button>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+
+                        </form>
+                        <!-- <form class="form-horizontal" name="userForm" novalidate ng-submit="submitForm2()">
+                            <div class="row">
+
+                                <div class="col-lg-12 ">
+                                    <div class="form-group">
+                                        <label class=" text-left ">Logo File</label><br>
+
+                                        <label class="btn btn-primary btn-xs">
+                                                 Browse&hellip; <input type="file" ng-model="selectedFile" style="display: none;" ng-change="filechanged()">
+                                        </label>
+                                        <div class="">
+                                            <h5>Image Sizes: Not More than 300kb</h5>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                            <div class="row ">
+                                <div class="form-group ">
+                                    <div class=" col-sm-2 ">
+                                        <button type="submit" ng-disabled="userForm.$invalid" class="btn btn-primary">Save Image</button>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                        </form> -->
+
+                        <br>
+                        <br>
+                        <div class="row ">
+                            <div class="col-lg-6 ">
+                                <label for="comment ">Taxes:</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <input type="text" ng-model="newTaxType" class=" form-control">
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="number" max="100" min="0.01" ng-blur="roundOffPrice()" ng-model="newTaxRate" class=" form-control">
+                            </div>
+                            <div class="form-group ">
+                                <div class=" col-sm-2 ">
+                                    <a href="#/settingsadd " mwl-confirm
+                                    title="Are you sure ?"
+                                    message=""
+                                    confirm-text="Yes <i class='glyphicon glyphicon-ok'></i>"
+                                    cancel-text="No <i class='glyphicon glyphicon-remove'></i>"
+                                    placement="top"
+                                    on-confirm="addUserTax()"
+                                    on-cancel="" class="btn btn-primary ">Add</a>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="table-responsive" style="margin-right:450px;">
+                            <table class="table  table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th width="160">Tax</th>
+                                        <th width="160">Rate</th>
+                                        <th width="5"> Remove</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in userData.user_settings.user_tax">
+                                        <td>{{item.type}}</td>
+                                        <td>{{item.rate}}</td>
+                                        <td>
+                                            <div class="btn-group center" ng-if="item.rate>0">
+                                                <a class="btn btn-danger btn-xs"
+                                                  mwl-confirm
+                                                  title="Are you sure ?"
+                                                  message=""
+                                                  confirm-text="Yes <i class='glyphicon glyphicon-ok'></i>"
+                                                  cancel-text="No <i class='glyphicon glyphicon-remove'></i>"
+                                                  placement="right"
+                                                  on-confirm="deleteUserTax('{{item._id}}')"
+                                                  on-cancel=""
+                                                >Remove</a>
+                                                <!-- <a class="btn btn-warning btn-sm" href="#/clientaccount">Account</a> -->
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+</div>

@@ -1,0 +1,117 @@
+<style media="screen">
+  body{
+    overflow-y: scroll;;
+  }
+</style>
+<div class="container-fluid" data-ng-controller="dashboard">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="">
+                    <h1 class="panel-title" style=""><i class="fa fa-line-chart fa-fw"></i> Sales Report</h1>
+                    <div class="pull-right">
+                        <!-- <a href="#" class="btn btn-success btn-sm">New Order</a> -->
+                        <!-- <a href="#/jobs/Pending/1" class="btn btn-success btn-sm  text-right">All Jobs</a> -->
+                    </div>
+                    <div class="clearfix">
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div ng-show="Chartloader">Loading Data... </div>
+                    <div class="chart">
+                        <canvas id="myChart" width="980" height="350" class="hidden-xs"></canvas>
+                        <canvas id="myChart2" width="900" height="900" class="hidden-lg hidden-sm hidden-md"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="">
+                    <h1 class="panel-title" style=""><i class="fa fa-sticky-note fa-fw"></i> Recent Invoices</h1>
+                    <div class="pull-right btn-group">
+                        <!-- <a href="#" class="btn btn-success btn-sm">New Order</a> -->
+                        <a href="#/invoice/1/All" class="btn btn-success btn-sm  text-right">See All</a>
+                        <a href="#/invoiceadd" class="btn btn-info btn-sm  text-right">New Invoice</a>
+                    </div>
+                    <div class="clearfix">
+                    </div>
+                </div>
+                <div class="panel-body">
+                  <div class="table-responsive">
+                  <table class="table table-striped table-bordered table-hover">
+                      <thead>
+                          <tr>
+                              <th>No.</th>
+                              <th>Company</th>
+                              <th>Amount</th>
+                              <th width="50">Action</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr ng-repeat="item in items2" ng-class="{'danger' : !item.invoice_data.status}">
+                              <td>{{item.invoice_data.number}}</td>
+                              <!-- <td>{{ dataFormat(item.invoice_data.date)}}</td> -->
+                              <!-- <td>{{item.client_data.client_name}} </td> -->
+                              <td>{{item.client_data.client_company_name}}</td>
+                              <td class="text-right currency">{{item.invoice_data.grand_total  | inrFilter}}</td>
+                              <td>
+                                  <div class="btn-group pull-right">
+                                      <a class="btn btn-primary btn-xs" href="#/invoiceview/{{item._id}}">View</a>
+                                      <!-- <a class="btn btn-warning btn-sm" href="#/clientaccount">Account</a> -->
+                                  </div>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="">
+                    <h1 class="panel-title" style=""><i class="fa fa-balance-scale fa-fw"></i> Client Balances</h1>
+                    <div class="pull-right btn-group">
+                        <!-- <a href="#" class="btn btn-success btn-sm">New Order</a> -->
+                        <a href="#/account/1" class="btn btn-success btn-sm  text-right">See All</a>
+                        <!-- <a href="#/jobs/Pending/1" class="btn btn-info btn-sm  text-right">New Invoice</a> -->
+                    </div>
+                    <div class="clearfix">
+                    </div>
+                </div>
+                <div class="panel-body">
+                  <div class="table-responsive">
+                      <table class="table table-striped table-bordered table-hover">
+                          <thead>
+                              <tr>
+                                  <th>Company Name</th>
+                                  <!-- <th>Name</th> -->
+                                  <th >Current Balance</th>
+                                  <th width="50">Action</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr ng-repeat="item in items3">
+                                  <td>{{item.client_company_name}}</td>
+                                  <!-- <td>{{item.client_name}}</td> -->
+                                  <td class="text-right currency">{{item.client_balance  | inrFilter}}</td>
+                                  <td>
+                                      <div class="btn-group pull-right">
+                                          <a class="btn btn-primary btn-xs" href="#/accountview/{{item._id}}/1">Account History</a>
+                                          <!-- <a class="btn btn-warning btn-sm" href="#/clientaccount">Account</a> -->
+                                      </div>
+                                  </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+</div>

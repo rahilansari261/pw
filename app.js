@@ -18,13 +18,14 @@ app.use(express.json())
 // routes
 
 app.use('/api/v1/tasks', tasks)
-app.use('/api/v1/users', users)
+// app.use('/api/v1/users', users)
+app.use('/user', users)
 
 app.use(notFound)
 app.use(errorHandlerMiddleware)
 const port = process.env.PORT || 5000
 
-const start = async () => {
+const init = async () => {
   try {
     await connectDB(process.env.MONGO_URI)
     app.listen(port, () =>
@@ -35,4 +36,4 @@ const start = async () => {
   }
 }
 
-start()
+init()

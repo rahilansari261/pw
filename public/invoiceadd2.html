@@ -1,0 +1,232 @@
+<div class="container-fluid" data-ng-controller="invoice_step_2">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="">
+                    <h1 class="panel-title" style=""><i class="fa fa-sticky-note fa-fw"></i>Create Invoice Step 2 of 3 <small>(Add Products)</small></h1>
+                    <div class="pull-right">
+                        <!-- <a href="#" class="btn btn-success btn-sm">New Order</a> -->
+                        <!-- <a href="#/productadd" class="btn btn-success btn-sm  text-right">Add New Products</a> -->
+                    </div>
+                    <div class="clearfix">
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <p>Party Selected: <b>{{clientData.client_company_name}}</b></p>
+                        </div>
+
+                        <div class="col-lg-6">
+                              <p>Person Name: <b>{{clientData.client_name}}</b></p>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                      <div>
+                          <div class="form-group">
+                            <!-- AUTO COMPLETE CODE -->
+                              <div class="col-lg-6">
+                                <label class="control-label">Search Products</label> <small>(Type Below to Add More)</small>
+                                  <autocomplete ng-model="productSelected" data="products" on-type="updateList" on-select="addProduct"></autocomplete>
+                              </div>
+
+
+                              <div class="col-lg-5">
+                              <div class="control-label">
+                                <label class="control-label">Date</label> <small>{{dateMsg}}</small>
+                              </div>
+                                <div class="input-group">
+                                <input type="text" class="form-control" datetime-picker="dd MMM yyyy" ng-model="invoice_data.date" enable-time="false" is-open="isOpen"  datepicker-options="{ minDate: minDate, maxDate: maxDate}" ng-change="saveInvoiceData()"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="openCalendar($event, prop)"><i class="fa fa-calendar"></i></button>
+                                </span>
+                            </div>
+                              </div>
+                          </div>
+
+                      </div>
+                        <!-- /.col-lg-6 -->
+                    </div>
+                    <!-- /.row -->
+                    <br>
+                    <div class="container contstyle">
+                        <div class="jumbotron jumbostyle" ng-repeat="product in product_data">
+                            <i class="fa fa-times crossstyle" data-toggle="tooltip" data-placement="top" title="Remove" ng-click="removeProduct($index)"></i>
+
+                                <form>
+                                    <div class="row">
+                                        <div class="col-lg-4 col-sm-12 col-xs-12 col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control inpstyle" ng-model="product.product_name" placeholder="Product Name" ng-change="calculateRow($index)">
+                                        </div>
+                                        <!-- /input-group -->
+                                    </div>
+                                    <!-- /.col-lg-6 -->
+                                    <div class="col-lg-2 col-sm-12 col-xs-12 col-md-2">
+                                        <div class="input-group ">
+                                            <!-- <span class="input-group-addon" id="basic-addon1">Qty.</span> -->
+                                            <input type="number" class="form-control " placeholder="Qty " ng-model="product.qty" step="1" min="0" ng-change="calculateRow($index)">
+                                            <span class="input-group-addon" > {{product.product_unit}}</span>
+                                        </div>
+                                        <!-- /input-group -->
+                                    </div>
+                                    <!-- /.col-lg-6 -->
+                                    <div class="col-lg-3 col-sm-12 col-xs-12 col-md-3">
+                                        <div class="input-group ">
+                                             <span class="input-group-addon" id="basic-addon1">Price &#8377;</span>
+                                            <input type="number" class="form-control  "  placeholder="Price " ng-model="product.product_price"  min="0" ng-change="calculateRow($index)">
+                                        </div>
+                                        <!-- /input-group -->
+                                    </div>
+                                    <!-- /.col-lg-6 -->
+                                    <div class="col-lg-2 col-sm-12 col-xs-12 col-md-2">
+                                      <select ng-model="product.product_tax" ng-options="c.type+' @ '+c.rate for c in taxes track by c.rate" class=" form-control " required ng-change="calculateRow($index)" >
+                                      </select>
+                                      <!-- <div class="input-group "> -->
+
+
+                                          <!-- <span class="input-group-addon" id="basic-addon1">Qty.</span> -->
+                                          <!-- <span class="input-group-addon" > Discount</span>
+                                          <input type="number" class="form-control " placeholder="Qty " ng-model="product.discount" step="1" min="0" ng-change="calculateRow($index)"> -->
+
+                                      <!-- </div> -->
+
+
+                                    </div>
+                                        <!-- /input-group -->
+                                    </div>
+                                    <!-- /.col-lg-6 -->
+
+                                <div class="row ">
+                                    <div class="col-lg-4 ">
+                                        <div class="input-group ">
+                                          <textarea ng-model="product.product_desc" class="form-control inpstyle " style="height: 34px;" ng-change="calculateRow($index)"></textarea>
+                                            <!-- <input type="text" class="form-control inpstyle " placeholder="Product Description" > -->
+                                        </div>
+                                        <!-- /input-group -->
+                                    </div>
+
+                                    <!-- <div class="col-lg-2 "> -->
+                                        <!-- /input-group -->
+                                    <!-- </div> -->
+
+                                      <div class="col-lg-6 text-right">
+                                            <div class="input-group text-right">
+                                              <label class="control-label text-right currency" style="padding: 6px;"> ({{product.product_price}} x {{product.qty}}) +  {{product.tax_amount}} = {{product.row_total | inrFilter}}</label>
+                                            </div>
+                                      </div>
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+
+
+                    <div class="container contstyle " ng-show="product_data.length > 0">
+                        <div class="jumbotron jumbostyle ">
+
+                            <div class="row ">
+                                    <div class="col-lg-8 ">
+                                <div class="form-group ">
+                                    <label for="comment ">T&amp;C</label>
+                                    <textarea class="form-control " rows="7"
+                                      placeholder="These are terms and condition you can change it for this invoice if you want. "
+                                      ng-model="user_data.user_tc"></textarea>
+                                </div>
+                                </div>
+                                <div class="col-lg-4  col-sm-12">
+                                    <div class="row ">
+                                    <div class="col-sm-6  col-xs-6 text-right ">
+                                    <h5>Sub Total:</h5>
+                                    </div>
+                                    <div class="col-sm-6 col-xs-6  text-right currency">
+                                    <h5>{{ invoice_data.subtotal  | inrFilter }}</h5>
+                                    </div>
+                                    </div>
+
+
+
+                                    <div class="row">
+                                    <div class="col-sm-6 col-xs-6  text-right ">
+                                    <h5>Tax Summary:</h5>
+                                    </div>
+                                    <div class="col-sm-6  col-xs-6 text-right ">
+                                    <h5></h5>
+                                    </div>
+                                    </div>
+
+                                    <div class="row" ng-repeat="taxes in invoice_data.tax_summary">
+                                    <div class="col-sm-6  col-xs-6 text-right ">
+                                    <h5>{{taxes.tax_name}}:</h5>
+                                    </div>
+                                    <div class="col-sm-6 col-xs-6  text-right currency">
+                                    <h5> {{taxes.tax_amount  | inrFilter}}</h5>
+                                    </div>
+                                    </div>
+
+                                    <div class="row">
+                                    <div class="col-sm-6  col-xs-6  text-right ">
+                                    <h5>Discount:</h5>
+                                    </div>
+                                    <div class="col-sm-6 text-left ">
+                                      <div class="input-group ">
+                                          <span class="input-group-addon" > &#8377;</span>
+                                          <input type="number"  class="form-control text-right" placeholder="Discount" ng-model="invoice_data.discount" step="1" min="0" ng-change="calculateInvoice()">
+                                      </div>
+
+                                    </div>
+                                    </div>
+
+                                    <div class="row">
+                                    <div class="col-sm-6 col-xs-6  text-right ">
+                                    <h5>Grand Total:</h5>
+                                    </div>
+                                    <div class="col-sm-6 col-xs-6  text-right  currency">
+                                    <h5> {{invoice_data.grand_total  | inrFilter}}</h5>
+                                    </div>
+                                    </div>
+
+
+
+                                </div>
+
+                                </div>
+
+                        </div>
+                    </div>
+                    <!-- <div class="row ">
+                        <div class="col-sm-offset-4 col-sm-5 alert alert-success ">
+                            <strong>Success!</strong> Please check the detials, make changes if nessecary
+                        </div>
+                    </div> -->
+                    <div class="row " >
+                        <div class="form-group ">
+                        <div class=" col-sm-offset-4 col-sm-1 ">
+
+
+                        </div>
+                        <div class=" col-sm-6 ">
+                            <a href="#/invoiceadd " class="btn btn-primary ">Previous Step</a>
+                          <button type="submit" ng-disabled="product_data.length < 1" class="btn btn-primary"
+                          mwl-confirm
+                          title="Are you sure ?"
+                          message=""
+                          confirm-text="Yes <i class='glyphicon glyphicon-ok'></i>"
+                          cancel-text="No <i class='glyphicon glyphicon-remove'></i>"
+                          placement="top"
+                          on-confirm="moveToSetp3()"
+                          on-cancel=""
+                          >Next Step</button>
+                        </div>
+                    </div>
+                    </div>
+                    <br>
+                    <br>
+
+                </div>
+            </div>
+        </div>
+    </div>
+      </div>
+    <!-- /.row -->
+</div>

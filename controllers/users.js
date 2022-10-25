@@ -139,7 +139,7 @@ const loginUser = async (req, res) => {
         }
       }
     }
-  } catch (error) {    
+  } catch (error) {
     res.status(500).json({ msg: error })
   }
 }
@@ -147,7 +147,32 @@ const forgotUser = async (req, res) => {}
 const verifyUser = async (req, res) => {}
 const resetUser = async (req, res) => {}
 const updateUser = async (req, res) => {}
-const passwordchangeUser = async (req, res) => {}
+const passwordchangeUser = async (req, res) => {
+  const passwordData = req.body.passwordData
+  if (!passwordData) {
+    // prettier-ignore
+    return res.status(200).json(getFailureResponse('User Data is missing', false))
+  }
+  if (passwordData.newPassword != passwordData.newPassword2) {
+    // prettier-ignore
+    return res.json({ success: false, message: 'Password do not match', })
+  }
+  try {
+    const data = await User.findOne({ _id: req.doc._id })
+    if (!passwordHash.verify(passwordData.oldPassword, data.user_password)) {
+      // prettier-ignore
+      return res.json({ success: false, message: 'Wrong  Old Password' })
+    } else {
+      data.user_password = passwordHash.generate(passwordData.newPassword)
+      data.save()
+      // prettier-ignore
+      res.status(200).json({message: 'Password Has Change, Use your new password to login',success: true,})
+    }
+  } catch (error) {
+    // prettier-ignore
+    res.status(500).json({ msg: error })
+  }
+}
 const addtaxUser = async (req, res) => {}
 const removetaxUser = async (req, res) => {}
 module.exports = {

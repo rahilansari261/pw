@@ -1,0 +1,115 @@
+<div class="container-fluid" data-ng-controller="profile_update">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="">
+                    <h1 class="panel-title" style=""><i class="fa fa-gear fa-fw"></i> Profile</h1>
+                    <div class="pull-right">
+                        <div class="btn-group">
+                            <a href="#/profile/" class="btn btn-primary" data-ng-class="{'active': (section=='profile' )}">Profile</a>
+                            <a href="#/settingsadd" class="btn btn-primary" data-ng-class="{'active': (section=='settingsadd' )}">Settings</a>
+                            <a href="#/password" class="btn btn-primary" data-ng-class="{'active': (section=='password' )}">Password</a>
+                            <a href="#/subscribtions" class="btn btn-primary" data-ng-class="{'active': (section=='subscribtions' )}">Subscription</a>
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <form class="form-horizontal" name="userForm" novalidate ng-submit="submitForm()">
+                        <div class="form-group" ng-class="{ 'has-error': userForm.user_company_name.$touched && userForm.user_company_name.$invalid }">
+                            <label class="col-sm-4 text-right control-label">Company</label>
+                            <div class="col-sm-5 text-left">
+                                <h5>{{userData.user_company_name}}</h5>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error': userForm.user_name.$touched && userForm.user_name.$invalid }">
+                            <label class="col-sm-4 text-right control-label">Name</label>
+                            <div class="col-sm-5">
+                                <input type="text" name="user_name" class="form-control" ng-model="userData.user_name" ng-minlength="3"  required>
+                                <div class="help-block" ng-messages="userForm.user_name.$error" ng-if="userForm.user_name.$touched">
+                                    <div ng-message="minlength">Name is too short.</div>
+                                    <div ng-message="maxlength">Name is too long.</div>
+                                    <div ng-message="required">Name is required.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error': userForm.user_tin.$touched && userForm.user_tin.$invalid }">
+                            <label class="col-sm-4 text-right control-label">TIN/CST</label>
+                            <div class="col-sm-5">
+                                <input type="text" name="user_tin" class="form-control" ng-model="userData.user_tin" ng-minlength="5" ng-maxlength="10" >
+                                <div class="help-block" ng-messages="userForm.user_tin.$error" ng-if="userForm.user_tin.$touched">
+                                    <div ng-message="minlength">Tin no. is too short.</div>
+                                    <div ng-message="maxlength">Tin no. is too long.</div>
+                                    <div ng-message="required">Tin no. is required.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error': userForm.service_tax.$touched && userForm.service_tax.$invalid }" >
+                            <label class="col-sm-4 text-right control-label">Service Tax No.</label>
+                            <div class="col-sm-5">
+                                <input type="text" name="service_tax" class="form-control" ng-model="userData.user_stn" ng-minlength="9" ng-maxlength="14" >
+                                <div class="help-block" ng-messages="userForm.service_tax.$error" ng-if="userForm.service_tax.$touched">
+                                    <div ng-message="minlength">Service Tax No. is too short.</div>
+                                    <div ng-message="maxlength">Service Tax No. is too long.</div>
+                                    <div ng-message="required">Service Tax No. is required.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error': userForm.user_phone.$touched && userForm.user_phone.$invalid }">
+                            <label class="col-sm-4 text-right control-label">Phone No.</label>
+                            <div class="col-sm-5">
+                                <input type="number" name="user_phone" class="form-control" ng-model="userData.user_phone"  ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/" required>
+                                <div class="help-block" ng-messages="userForm.user_phone.$error" ng-if="userForm.user_phone.$touched">
+                                    <div ng-message="minlength">Phone No. is too short. not a valid</div>
+                                    <div ng-message="maxlength">Phone No. no is not a valid too long</div>
+                                    <div ng-message="required">Phone No. is required.</div>
+                                    <div ng-message="pattern">Must be a valid 10 digit phone number</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error': userForm.user_address.$touched && userForm.user_address.$invalid }">
+                            <label class="col-sm-4 text-right control-label">Address *</label>
+                            <div class="col-sm-5">
+                                <textarea  name="user_address" class="form-control" ng-model="userData.user_address" ng-minlength="3" ng-maxlength="100" required></textarea>
+                                <div class="help-block" ng-messages="userForm.user_address.$error" ng-if="userForm.user_address.$touched">
+                                    <div ng-message="minlength">Address is too short.</div>
+                                    <div ng-message="maxlength">Address is too long.</div>
+                                    <div ng-message="required">Address is required.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group" ng-class="{ 'has-error': userForm.logo_file.$touched && userForm.user_notes.$invalid }">
+                            <label class="col-sm-4 text-right control-label">Logo File</label>
+                            <div class="col-sm-1">
+                                <div style="position:relative;">
+                                    <a class='btn btn-primary' href='javascript:;'>
+            Browse
+            <input type="file" style='position:absolute;z-index:2;width:40;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' name="file_source" size="40"  onchange='$("#upload-file-info").html($(this).val());'>
+        </a> &nbsp;
+                                    <span class='label label-info' id="upload-file-info"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <h5>Image Sizes: Not More than 300kb
+</h5>
+                            </div>
+                        </div> -->
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-5">
+                                <span>Please note these information will be used in Invoices.<br>
+                                Please check before saving them.</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-5">
+                                <button type="submit" ng-disabled="userForm.$invalid"  class="btn btn-primary">Save My Profile</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+</div>
