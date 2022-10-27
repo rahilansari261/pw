@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const tasks = require('./routes/tasks')
 const users = require('./routes/users')
+const accounts = require('./routes/accounts')
 const connectDB = require('./db/connect')
 require('dotenv').config()
 const notFound = require('./middleware/not-found')
@@ -18,7 +19,8 @@ app.use(express.json())
 // routes
 
 app.use('/api/v1/tasks', tasks)
-// app.use('/api/v1/users', users)
+app.use('/api/v1/users', users)
+app.use('/api/v1/accounts', accounts)
 app.use('/user', users)
 
 app.use(notFound)
