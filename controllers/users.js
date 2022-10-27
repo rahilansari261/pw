@@ -115,7 +115,7 @@ const loginUser = async (req, res) => {
             options = { multi: false }
           await User.updateOne(conditions, update, options)
 
-          const token = jwt.sign(payLoad, process.env.SECRET, {
+          const token = jwt.sign(payLoad, app.get('superSecret'), {
             expiresIn: '12h', // expires in 12 hours
           })
           docs.user_password = 'YOU ARE LOOKING AT THE WRONG PLACE'
@@ -127,7 +127,7 @@ const loginUser = async (req, res) => {
             data: docs,
           })
         } else {
-          const token = jwt.sign(payLoad, process.env.SECRET, {
+          const token = jwt.sign(payLoad, app.get('superSecret'), {
             expiresIn: '5m', // expires in 12 hours
           })
           res.json({
@@ -144,9 +144,105 @@ const loginUser = async (req, res) => {
   }
 }
 const forgotUser = async (req, res) => {}
-const verifyUser = async (req, res) => {}
-const resetUser = async (req, res) => {}
-const updateUser = async (req, res) => {}
+const verifyUser = async (req, res) => {
+  const token = req.params.c
+  // prettier-ignore
+  if (!token) return res.status(403).send({ success: false, message: 'No token provided. 2' })
+  // decode token
+  else {
+    // verifies the sceret and checks expiration
+    jwt.verify(token, app.get('verifySecret'), function (err, decoded) {
+      if (err) return res.json({success: false,message: 'Fail to Authenticate.'})
+      else { 
+        // prettier-ignore-start
+        const decoded = jwt.decode(token, { complete: true })
+        const id = decoded.payload._id
+        const conditions = { _id: require('mongoose').Types.ObjectId(id) }
+        const update = {$set: {user_verification: true}}
+        const options = { multi: true }
+        
+        User.updateOne(conditions, update, options, callback)
+        function callback(err, numAffected) {
+          if (err) console.log(err)
+           else {
+            // numAffected is the number of updated documents
+            if (numAffected.nModified > 0) res.json({message:'Account has been verified',success: true,})
+            else res.status(403).json({ message: 'Access Unauthorized', success: false })
+            // prettier-ignore-end              
+          }
+        }
+      }
+    })
+  }
+}
+const resetUser = async (req, res) => {
+  const token = req.params.c
+  // prettier-ignore
+  if (!token) return res.status(403).send({ success: false, message: 'No token provided. 2' })
+  // decode token
+  else {
+    // verifies the sceret and checks expiration
+    jwt.verify(token, app.get('secretForgot'), function (err, decoded) {
+      if (err) return res.json({success: false,message: 'Fail to Authenticate.'})
+      else {
+        // if everything is good, save to request for use in other routes        
+        if (req.body.password != req.body.password2) return res.json({ message: 'Passwords Do Not Match', success: false })      
+        // prettier-ignore-start
+        const decoded = jwt.decode(token, { complete: true })
+        const id = decoded.payload._id
+        const conditions = { _id: require('mongoose').Types.ObjectId(id) }
+        const update = {$set: { user_password: passwordHash.generate(req.body.password) }}
+        const options = { multi: false }
+        
+        User.updateOne(conditions, update, options, callback)
+        function callback(err, numAffected) {
+          if (err) console.log(err)
+           else {
+            // numAffected is the number of updated documents
+            if (numAffected.nModified > 0) res.json({message:'Password has been reset. Please login using new password.',success: true,})
+            else res.status(403).json({ message: 'Access Unauthorized', success: false })
+            // prettier-ignore-end              
+          }
+        }
+      }
+    })
+  }
+}
+const updateUser = async (req, res) => {
+  try {
+    const userData = req.body.userData
+    if (!userData) {
+      // prettier-ignore
+      return res.status(200).json(getFailureResponse('User Data is missing', false))
+    }
+    const data = await User.findOne({ _id: req.doc._id })
+    if (!data)
+      // prettier-ignore
+      res.status(200).json({message: 'No user found with the given id',success: false,})
+    else {
+      if (userData.user_name) data.user_name = userData.user_name
+
+      if (userData.user_tin) data.user_tin = userData.user_tin
+
+      if (userData.user_stn) data.user_stn = userData.user_stn
+
+      if (userData.user_address) data.user_address = userData.user_address
+
+      if (userData.user_phone) data.user_phone = userData.user_phone
+
+      if (userData.user_settings && userData.user_settings.user_tc)
+        data.user_settings.user_tc = userData.user_settings.user_tc
+
+      data.user_lastModified = Date.now()
+      data.save()
+      // prettier-ignore
+      res.status(200).json({message: 'User Details Updated Successfully',data: data,success: true,})
+    }
+  } catch (error) {
+    // prettier-ignore
+    res.status(200).json({message: error,success: false,})
+  }
+}
 const passwordchangeUser = async (req, res) => {
   const passwordData = req.body.passwordData
   if (!passwordData) {
@@ -173,8 +269,39 @@ const passwordchangeUser = async (req, res) => {
     res.status(500).json({ msg: error })
   }
 }
-const addtaxUser = async (req, res) => {}
-const removetaxUser = async (req, res) => {}
+const addtaxUser = async (req, res) => {
+  try {
+    const userData = req.body.userData
+    if (!userData) {
+      // prettier-ignore
+      return res.status(200).json(getFailureResponse('User Data is missing', false))
+    }
+    userData._id = require('mongoose').Types.ObjectId()
+    // prettier-ignore
+    const docs = await User.updateOne({_id: req.doc._id,},{$push: {'user_settings.user_tax': userData,},},{upsert: true,},)
+    // prettier-ignore
+    res.status(200).json({ message: 'Tax Added Successfully', success: true, data: docs })
+  } catch (error) {
+    // prettier-ignore
+    res.status(400).json({message: error,success: false, data: null})
+  }
+}
+const removetaxUser = async (req, res) => {
+  try {
+    if (!req.body.userData) {
+      // prettier-ignore
+      return res.status(400).json(getFailureResponse('User Data is missing', false))
+    }
+    const tax_id = require('mongoose').Types.ObjectId(req.params.taxId)
+    // prettier-ignore
+    User.updateOne({_id: req.doc._id},{$pull: {'user_settings.user_tax': {_id: tax_id}}},{upsert: true})
+    // prettier-ignore
+    res.status(200).json({message: 'Tax Removed Successfully',success: true})
+  } catch (error) {
+    // prettier-ignore
+    res.status(400).json({message: error,success: false})
+  }
+}
 module.exports = {
   createUser,
   loginUser,
