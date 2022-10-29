@@ -1,7 +1,7 @@
 const Account = require('../models/Account')
 const passwordHash = require('password-hash')
-var jwt = require('jsonwebtoken')
 require('dotenv').config()
+var jwt = require('jsonwebtoken')
 // const asyncWrapper = require('../middleware/async')
 // const { createCustomError } = require('../errors/custom-error')
 
