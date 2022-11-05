@@ -66,22 +66,9 @@ const createAccount = async (req, res) => {
   }
 }
 
-const loginAccount = async (req, res) => {}
-const forgotAccount = async (req, res) => {}
-const verifyAccount = async (req, res) => {}
-const resetAccount = async (req, res) => {}
-const updateAccount = async (req, res) => {}
-const passwordChangeAccount = async (req, res) => {}
-const addtaxAccount = async (req, res) => {}
-const removetaxAccount = async (req, res) => {}
+const getAccountDetails = async (req, res) => {}
+
 module.exports = {
   createAccount,
-  loginAccount,
-  forgotAccount,
-  verifyAccount,
-  resetAccount,
-  updateAccount,
-  passwordChangeAccount,
-  addtaxAccount,
-  removetaxAccount,
+  getAccountDetails,
 }
