@@ -25,16 +25,16 @@ const updateInvoices = async (accountData, Invoice) => {
 }
 
 const createAccount = async (req, res) => {
-  const accountData = req.body.accountData
-  // prettier-ignore
-  if (!accountData) return res.status(200).json({ message: ' Data Not Found', data: null, success: false })
-  // prettier-ignore
-  const Account = mongoose.model(`${req.doc._id}-accounts`,require('../models/Account'))
-  // prettier-ignore
-  const Client = mongoose.model(`${req.doc._id}-clients`,require('../models/Client'))
-  // prettier-ignore
-  const Invoice = mongoose.model(`${req.doc._id}-invoices`,require('../models/Invoice'))
   try {
+    const accountData = req.body.accountData
+    // prettier-ignore
+    if (!accountData) return res.status(200).json({ message: ' Data Not Found', data: null, success: false })
+    // prettier-ignore
+    const Account = mongoose.model(`${req.doc._id}-accounts`,require('../models/Account'))
+    // prettier-ignore
+    const Client = mongoose.model(`${req.doc._id}-clients`,require('../models/Client'))
+    // prettier-ignore
+    const Invoice = mongoose.model(`${req.doc._id}-invoices`,require('../models/Invoice'))
     const newAccount = {
       client_id: accountData.client_id,
       client_name: accountData.client_name,
@@ -182,24 +182,29 @@ const getFindAndSortOptionsAccoToParams = async (
   return findAndSortOptions
 }
 const getAccountDetails = async (req, res) => {
-  // prettier-ignore
-  let { client_id, searchString, page, perPage, start_date, end_date } = req.params
-  // prettier-ignore
-  if (isNaN(page) || isNaN(perPage)) return res.status(200).json({message: 'Pagin Error',data: null,success: false,})
-  page = parseInt(page)
-  perPage = parseInt(perPage)
-  const startingPageForSort = (page - 1) * perPage
-  // prettier-ignore
-  const Account = mongoose.model(`${req.doc._id}-accounts`, require('../models/Account' ) )
-  // prettier-ignore
-  const { findOptions, sortOptions } = await getFindAndSortOptionsAccoToParams(client_id,searchString,start_date,end_date)
-  // prettier-ignore
-  const query =  Account.find(findOptions).sort(sortOptions).skip(startingPageForSort).limit(perPage)
-  const docs = await query.exec()
-  // prettier-ignore
-  if(!docs) return res.status(200).json({message: 'Something went wrong',count: null,data: null,success: false,})
-  // prettier-ignore
-  res.status(200).json({message: 'Accounts after search',count: docs.length,data: docs,success: true,})
+  try {
+    // prettier-ignore
+    let { client_id, searchString, page, perPage, start_date, end_date } = req.params
+    // prettier-ignore
+    if (isNaN(page) || isNaN(perPage)) return res.status(200).json({message: 'Pagin Error',data: null,success: false,})
+    page = parseInt(page)
+    perPage = parseInt(perPage)
+    const startingPageForSort = (page - 1) * perPage
+    // prettier-ignore
+    const Account = mongoose.model(`${req.doc._id}-accounts`, require('../models/Account' ) )
+    // prettier-ignore
+    const { findOptions, sortOptions } = await getFindAndSortOptionsAccoToParams(client_id,searchString,start_date,end_date)
+    // prettier-ignore
+    const query =  Account.find(findOptions).sort(sortOptions).skip(startingPageForSort).limit(perPage)
+    const docs = await query.exec()
+    // prettier-ignore
+    if(!docs) return res.status(200).json({message: 'Something went wrong',count: null,data: null,success: false,})
+    // prettier-ignore
+    res.status(200).json({message: 'Accounts after search',count: docs.length,data: docs,success: true,})
+  } catch (error) {
+    // prettier-ignore
+    res.status(400).json({message: error,success: false})
+  }
 }
 
 module.exports = {
