@@ -65,9 +65,9 @@ const updateProduct = async (req, res) => {
 
 const removeProduct = async (req, res) => {
   try {
-    const productData = req.body.productData
+    const id = req.params.id
     // prettier-ignore
-    if (!productData) return res.status(200).json({message: 'Product Data Not Found',data: null,success: false,})
+    if (!id) return res.status(200).json({message: 'Id not provided',data: null,success: false,})
     // prettier-ignore
     const Product = mongoose.model(`${req.doc._id}-products`, require('../models/Product'))
     // prettier-ignore
@@ -81,8 +81,73 @@ const removeProduct = async (req, res) => {
     res.status(200).json({message: error,success: false,})
   }
 }
+const getProductDetail = async (req, res) => {
+  try {
+    const id = req.params.id
+    // prettier-ignore
+    if (!id) return res.status(200).json({message: 'Product id not provided',data: null,success: false,})
+    // prettier-ignore
+    const Product = mongoose.model(`${req.doc._id}-products`, require('../models/Product'))
+    // prettier-ignore
+    const doc = await Product.findById({ _id: id },{ product_status: false })
+    // prettier-ignore
+    if (!doc) return res.status(200).json({ message: error, data: null, success: false })
+    // prettier-ignore
+    res.status(200).json({ message: 'Product Information ', data: doc, success: true })
+  } catch (error) {
+    // prettier-ignore
+    res.status(200).json({message: error,success: false,})
+  }
+}
+
+const getProductWithSearchAndPaging = async (req, res) => {
+  try {
+    // prettier-ignore
+    let {page, perPage } = req.params
+    let findOptions = {}
+    // prettier-ignore
+    if (isNaN(page) || isNaN(perPage)) return res.status(200).json({message: 'Pagin Error',data: null,success: false,})
+    page = parseInt(page)
+    perPage = parseInt(perPage)
+    const startingPageForSort = (page - 1) * perPage
+    // prettier-ignore
+    const Product = mongoose.model(`${req.doc._id}-products`, require('../models/Product' ) )
+    if (req.params.searchStr) {
+      const searchStr = req.params.searchStr
+      findOptions = {
+        $and: [
+          {
+            $or: [
+              { product_name: new RegExp(searchStr, 'i') },
+              { product_code: new RegExp(searchStr, 'i') },
+              { product_description: new RegExp(searchStr, 'i') },
+            ],
+          },
+          { product_status: true },
+        ],
+      }
+    }
+    // prettier-ignore
+    const products = await Product.find(findOptions).exec()
+    // prettier-ignore
+    if(!products) return res.status(200).json({message: 'Something went wrong',count: null,data: null,success: false,})
+    const totalProducts = products.length()
+    // prettier-ignore
+    const query =  Product.find(findOptions).skip(startingPageForSort).limit(perPage)
+    const docs = await query.exec()
+    // prettier-ignore
+    if(!docs) return res.status(200).json({message: 'Something went wrong',count: null,data: null,success: false,})
+    // prettier-ignore
+    res.status(200).json({message: 'Products after search',count: totalProducts,data: docs,success: true,})
+  } catch (error) {
+    // prettier-ignore
+    res.status(400).json({message: error,success: false})
+  }
+}
 module.exports = {
   createProduct,
   updateProduct,
   removeProduct,
+  getProductDetail,
+  getProductWithSearchAndPaging,
 }

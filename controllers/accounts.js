@@ -4,6 +4,9 @@ require('dotenv').config()
 const jwt = require('jsonwebtoken')
 // const asyncWrapper = require('../middleware/async')
 // const { createCustomError } = require('../errors/custom-error')
+
+// <!-- two api remaining getAll and 1 in getAccountDetails function that is commented -->
+
 const updateInvoices = async (accountData, Invoice) => {
   for (const i = 0; i < accountData.invoice_list.length; i++) {
     await Invoice.updateOne(
@@ -195,8 +198,7 @@ const getAccountDetails = async (req, res) => {
     // prettier-ignore
     const { findOptions, sortOptions } = await getFindAndSortOptionsAccoToParams(client_id,searchString,start_date,end_date)
     // prettier-ignore
-    const query =  Account.find(findOptions).sort(sortOptions).skip(startingPageForSort).limit(perPage)
-    const docs = await query.exec()
+    const docs = await Account.find(findOptions).sort(sortOptions).skip(startingPageForSort).limit(perPage).exec()
     // prettier-ignore
     if(!docs) return res.status(200).json({message: 'Something went wrong',count: null,data: null,success: false,})
     // prettier-ignore

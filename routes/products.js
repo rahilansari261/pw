@@ -1,11 +1,18 @@
 const express = require('express')
 const router = express.Router()
 
-const { createProduct, getProductDetails } = require('../controllers/products')
+const {
+  createProduct,
+  updateProduct,
+  removeProduct,
+  getProductDetail,
+  getProductWithSearchAndPaging,
+} = require('../controllers/products')
 
-router.route('/register2').post(createProduct)
-router
-  .route('/products/:id/:searchString/:page/:perPage/:start_date/:end_date')
-  .get(getProductDetails)
+router.route('/add').post(createProduct)
+router.route('/update').post(updateProduct)
+router.route('/remove/:id').get(removeProduct)
+router.route('/:id').get(getProductDetail)
+router.route('/:page/:perPage/:searchStr').get(getProductWithSearchAndPaging)
 
 module.exports = router
