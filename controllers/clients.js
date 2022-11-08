@@ -1,4 +1,4 @@
-const Product = require('../models/Product')
+const Client = require('../models/Client')
 const passwordHash = require('password-hash')
 require('dotenv').config()
 const jwt = require('jsonwebtoken')

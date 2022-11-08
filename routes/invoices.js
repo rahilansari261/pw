@@ -2,22 +2,17 @@ const express = require('express')
 const router = express.Router()
 
 const {
-  createClient,
-  updateClient,
-  removeClient,
-  getClientDetail,
-  getClientWithSearchAndPaging,
-  createClientAccounts,
+  createInvoice,
+  updateInvoice,
+  getInvoiceDetail,
+  cancelInvoice,
+  getInvoiceWithSearchAndPaging,
 } = require('../controllers/clients')
 
-router.route('/add').post(createClient)
-router.route('/update').post(updateClient)
-router.route('/:id').get(getClientDetail)
-router.route('/remove/:id').get(removeClient)
-router.route('/:page/:perPage/:searchStr').get(getClientWithSearchAndPaging)
-router
-  .route('/sorted/:page/:perPage/:searchStr')
-  .get(getClientWithSearchAndPaging)
-router.route('/accounts').post(createClientAccounts)
+router.route('/add').post(createInvoice)
+router.route('/update').post(updateInvoice)
+router.route('/:id').get(getInvoiceDetail)
+router.route('/cancel/:id').get(cancelInvoice)
+router.route('/:page/:perPage/:searchStr').get(getInvoiceWithSearchAndPaging)
 
 module.exports = router
