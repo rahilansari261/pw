@@ -13,7 +13,7 @@ const createClient = async (req, res) => {
     // prettier-ignore
     if (!clientData) return res.status(200).json({message: 'Client Data is missing',data: null,success: false,})
     // prettier-ignore
-    const Client = mongoose.model(`${req.doc._id}-clients`, require('../models/Client'))
+    const ClientCollection = mongoose.model(`${req.doc._id}-clients`, require('../models/Client'))
 
     const newClient = {
       client_company_name: clientData.client_company_name,
@@ -29,7 +29,7 @@ const createClient = async (req, res) => {
       client_balance: 0.0,
     }
 
-    const doc = await Client.create(newClient)
+    const doc = await ClientCollection.create(newClient)
     // prettier-ignore
     if (!doc) return res.status(200).json({ message: error, data: null, success: false })
     // prettier-ignore
@@ -46,8 +46,8 @@ const updateClient = async (req, res) => {
     // prettier-ignore
     if (!clientData) return res.status(200).json({message: 'Client Data is missing',data: null,success: false,})
     // prettier-ignore
-    const Client = mongoose.model(`${req.doc._id}-clients`, require('../models/Client'))
-    const doc = await Client.findOne({ _id: clientData._id })
+    const ClientCollection = mongoose.model(`${req.doc._id}-clients`, require('../models/Client'))
+    const doc = await ClientCollection.findOne({ _id: clientData._id })
     // prettier-ignore
     if (!doc) return res.status(200).json({message: 'Client Data Not Found',data: null,success: false,})
 
@@ -79,9 +79,9 @@ const getClientDetail = async (req, res) => {
     // prettier-ignore
     if (!id) return res.status(200).json({message: 'Client id not provided',data: null,success: false,})
     // prettier-ignore
-    const Client = mongoose.model(`${req.doc._id}-clients`, require('../models/Client'))
+    const ClientCollection = mongoose.model(`${req.doc._id}-clients`, require('../models/Client'))
     // prettier-ignore
-    const doc = await Client.findById({ _id: id })
+    const doc = await ClientCollection.findById({ _id: id })
     // prettier-ignore
     if (!doc) return res.status(200).json({ message: error, data: null, success: false })
     // prettier-ignore
@@ -98,9 +98,9 @@ const removeClient = async (req, res) => {
     // prettier-ignore
     if (!id) return res.status(200).json({message: 'Id not provided',data: null,success: false,})
     // prettier-ignore
-    const Client = mongoose.model(`${req.doc._id}-clients`, require('../models/Client'))
+    const ClientCollection = mongoose.model(`${req.doc._id}-clients`, require('../models/Client'))
     // prettier-ignore
-    const doc = await Client.findOneAndUpdate({ _id: req.params.id },{ client_status: false })
+    const doc = await ClientCollection.findOneAndUpdate({ _id: req.params.id },{ client_status: false })
     // prettier-ignore
     if (!doc) return res.status(200).json({ message: error, data: null, success: false })
     // prettier-ignore
@@ -123,7 +123,7 @@ const getClientWithSearchAndPaging = async (req, res) => {
     perPage = parseInt(perPage)
     const startingPageForSort = (page - 1) * perPage
     // prettier-ignore
-    const Client = mongoose.model(`${req.doc._id}-clients`, require('../models/Client' ) )
+    const ClientCollection = mongoose.model(`${req.doc._id}-clients`, require('../models/Client' ) )
     // sorting condition will be added later
     if (req.params.sorting === 'sorting') sortOptions = { client_balance: -1 }
     if (searchStr) {
@@ -142,12 +142,12 @@ const getClientWithSearchAndPaging = async (req, res) => {
       }
     }
     // prettier-ignore
-    const clients = await Client.find(findOptions).sort(sortOptions).exec()
+    const clients = await ClientCollection.find(findOptions).sort(sortOptions).exec()
     // prettier-ignore
     if(!clients) return res.status(200).json({message: 'Something went wrong',count: null,data: null,success: false,})
     const totalClients = clients.length()
     // prettier-ignore
-    const query =  Client.find(findOptions).sort(sortOptions).skip(startingPageForSort).limit(perPage)
+    const query =  ClientCollection.find(findOptions).sort(sortOptions).skip(startingPageForSort).limit(perPage)
     const docs = await query.exec()
     // prettier-ignore
     if(!docs) return res.status(200).json({message: 'Something went wrong',count: null,data: null,success: false,})
@@ -165,7 +165,7 @@ const createClientAccounts = async (req, res) => {
     // prettier-ignore
     if (!accounts) return res.status(200).json({message: 'Data not provided',data: null,success: false,})
     // prettier-ignore
-    const Account = mongoose.model(`${req.doc._id}-accounts`, require('../models/Account' ) )
+    const AccountCollection = mongoose.model(`${req.doc._id}-accounts`, require('../models/Account' ) )
     const newAccounts = accounts.map((account) => {
       return {
         ...account,
@@ -173,7 +173,7 @@ const createClientAccounts = async (req, res) => {
         entry_date: new Date(),
       }
     })
-    const doc = await Account.create(newAccounts)
+    const doc = await AccountCollection.create(newAccounts)
     // prettier-ignore
     if (!doc) return res.status(200).json({ message: error, data: null, success: false })
     // prettier-ignore

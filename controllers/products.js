@@ -11,7 +11,7 @@ const createProduct = async (req, res) => {
     // prettier-ignore
     if (!productData) return res.status(200).json({message: 'Product Data Not Found',data: null,success: false,})
     // prettier-ignore
-    const Product = mongoose.model(`${req.doc._id}-products`, require('../models/Product'))
+    const ProductCollection = mongoose.model(`${req.doc._id}-products`, require('../models/Product'))
 
     const newProduct = {
       product_name: productData.product_name,
@@ -23,7 +23,7 @@ const createProduct = async (req, res) => {
       product_unit: productData.product_unit || 'Nos',
     }
 
-    const doc = await Product.create(newProduct)
+    const doc = await ProductCollection.create(newProduct)
     // prettier-ignore
     if (!doc) return res.status(200).json({ message: error, data: null, success: false })
     // prettier-ignore
@@ -40,8 +40,8 @@ const updateProduct = async (req, res) => {
     // prettier-ignore
     if (!productData) return res.status(200).json({message: 'Product Data Not Found',data: null,success: false,})
     // prettier-ignore
-    const Product = mongoose.model(`${req.doc._id}-products`, require('../models/Product'))
-    const doc = await Product.findOne({ _id: productData._id })
+    const ProductCollection = mongoose.model(`${req.doc._id}-products`, require('../models/Product'))
+    const doc = await ProductCollection.findOne({ _id: productData._id })
     // prettier-ignore
     if (!doc) return res.status(200).json({message: 'Product Data Not Found',data: null,success: false,})
 
@@ -69,9 +69,9 @@ const removeProduct = async (req, res) => {
     // prettier-ignore
     if (!id) return res.status(200).json({message: 'Id not provided',data: null,success: false,})
     // prettier-ignore
-    const Product = mongoose.model(`${req.doc._id}-products`, require('../models/Product'))
+    const ProductCollection = mongoose.model(`${req.doc._id}-products`, require('../models/Product'))
     // prettier-ignore
-    const doc = await Product.findOneAndUpdate({ _id: req.params.id },{ product_status: false })
+    const doc = await ProductCollection.findOneAndUpdate({ _id: req.params.id },{ product_status: false })
     // prettier-ignore
     if (!doc) return res.status(200).json({ message: error, data: null, success: false })
     // prettier-ignore
@@ -87,9 +87,9 @@ const getProductDetail = async (req, res) => {
     // prettier-ignore
     if (!id) return res.status(200).json({message: 'Product id not provided',data: null,success: false,})
     // prettier-ignore
-    const Product = mongoose.model(`${req.doc._id}-products`, require('../models/Product'))
+    const ProductCollection = mongoose.model(`${req.doc._id}-products`, require('../models/Product'))
     // prettier-ignore
-    const doc = await Product.findById({ _id: id },{ product_status: false })
+    const doc = await ProductCollection.findById({ _id: id },{ product_status: false })
     // prettier-ignore
     if (!doc) return res.status(200).json({ message: error, data: null, success: false })
     // prettier-ignore
@@ -111,7 +111,7 @@ const getProductWithSearchAndPaging = async (req, res) => {
     perPage = parseInt(perPage)
     const startingPageForSort = (page - 1) * perPage
     // prettier-ignore
-    const Product = mongoose.model(`${req.doc._id}-products`, require('../models/Product' ) )
+    const ProductCollection = mongoose.model(`${req.doc._id}-products`, require('../models/Product' ) )
     if (req.params.searchStr) {
       const searchStr = req.params.searchStr
       findOptions = {
@@ -128,12 +128,12 @@ const getProductWithSearchAndPaging = async (req, res) => {
       }
     }
     // prettier-ignore
-    const products = await Product.find(findOptions).exec()
+    const products = await ProductCollection.find(findOptions).exec()
     // prettier-ignore
     if(!products) return res.status(200).json({message: 'Something went wrong',count: null,data: null,success: false,})
     const totalProducts = products.length()
     // prettier-ignore
-    const query =  Product.find(findOptions).skip(startingPageForSort).limit(perPage)
+    const query =  ProductCollection.find(findOptions).skip(startingPageForSort).limit(perPage)
     const docs = await query.exec()
     // prettier-ignore
     if(!docs) return res.status(200).json({message: 'Something went wrong',count: null,data: null,success: false,})

@@ -7,9 +7,9 @@ const jwt = require('jsonwebtoken')
 
 // <!-- two api remaining getAll and 1 in getAccountDetails function that is commented -->
 
-const updateInvoices = async (accountData, Invoice) => {
+const updateInvoices = async (accountData, InvoiceCollection) => {
   for (const i = 0; i < accountData.invoice_list.length; i++) {
-    await Invoice.updateOne(
+    await InvoiceCollection.updateOne(
       { _id: accountData.invoice_list[i]._id },
       {
         $inc: {
@@ -33,11 +33,11 @@ const createAccount = async (req, res) => {
     // prettier-ignore
     if (!accountData) return res.status(200).json({ message: ' Data Not Found', data: null, success: false })
     // prettier-ignore
-    const Account = mongoose.model(`${req.doc._id}-accounts`,require('../models/Account'))
+    const AccountCollection = mongoose.model(`${req.doc._id}-accounts`,require('../models/Account'))
     // prettier-ignore
-    const Client = mongoose.model(`${req.doc._id}-clients`,require('../models/Client'))
+    const ClientCollection = mongoose.model(`${req.doc._id}-clients`,require('../models/Client'))
     // prettier-ignore
-    const Invoice = mongoose.model(`${req.doc._id}-invoices`,require('../models/Invoice'))
+    const InvoiceCollection = mongoose.model(`${req.doc._id}-invoices`,require('../models/Invoice'))
     const newAccount = {
       client_id: accountData.client_id,
       client_name: accountData.client_name,
@@ -50,17 +50,15 @@ const createAccount = async (req, res) => {
       entry_amount_out: accountData.entry_amount_out,
       // "entry_balance": accountData.entry_balance
     }
-    const doc = await Account.create(newAccount)
-    if (!doc)
-      return res
-        .status(200)
-        .json({ message: error, data: null, success: false })
+    const doc = await AccountCollection.create(newAccount)
+    // prettier-ignore
+    if (!doc) return res.status(200).json({ message: error, data: null, success: false })
     else {
       // prettier-ignore
-      await Client.updateOne({ _id: accountData.client_id },{ $inc: { client_balance: accountData.entry_amount_in * -1 } })
+      await ClientCollection.updateOne({ _id: accountData.client_id },{ $inc: { client_balance: accountData.entry_amount_in * -1 } })
     }
     if (accountData.entry_amount_in > 0)
-      await updateInvoices(accountData, Invoice)
+      await updateInvoices(accountData, InvoiceCollection)
     // prettier-ignore
     return res.status(200).json({message: 'Account Update Successfully',data: doc,success: true})
   } catch (error) {
@@ -194,11 +192,11 @@ const getAccountDetails = async (req, res) => {
     perPage = parseInt(perPage)
     const startingPageForSort = (page - 1) * perPage
     // prettier-ignore
-    const Account = mongoose.model(`${req.doc._id}-accounts`, require('../models/Account' ) )
+    const AccountCollection = mongoose.model(`${req.doc._id}-accounts`, require('../models/Account' ) )
     // prettier-ignore
     const { findOptions, sortOptions } = await getFindAndSortOptionsAccoToParams(client_id,searchString,start_date,end_date)
     // prettier-ignore
-    const docs = await Account.find(findOptions).sort(sortOptions).skip(startingPageForSort).limit(perPage).exec()
+    const docs = await AccountCollection.find(findOptions).sort(sortOptions).skip(startingPageForSort).limit(perPage).exec()
     // prettier-ignore
     if(!docs) return res.status(200).json({message: 'Something went wrong',count: null,data: null,success: false,})
     // prettier-ignore
