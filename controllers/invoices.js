@@ -33,6 +33,7 @@ const saleChart = async (date, value, ChartSaleCollection) => {
 }
 // prettier-ignore
 const updateAccounts = async (invoice,AccountCollection,ClientCollection,isAdvance,InvoiceCollection) => {
+  try{
   const newAccountEntry = {
     client_id: invoice.client_data.client_id,
     client_name: invoice.client_data.client_name,
@@ -52,8 +53,12 @@ const updateAccounts = async (invoice,AccountCollection,ClientCollection,isAdvan
     if (client_balance >= invoice.invoice_data.grand_total) {
        client_balance = invoice.invoice_data.grand_total * -1
     }
-  // prettier-ignore
+    // prettier-ignore
     const invoiceDoc = await InvoiceCollection.findOneAndUpdate({ _id: invoice._id },{$inc: { 'invoice_data.balance': client_balance * -1 },$push: {'invoice_data.paymentHistory': {dated: new Date(),amount: client_balance,remark: 'Advance Adjusment',},},})
+  }
+   } catch (error) {
+    // prettier-ignore
+    return console.log(error);
   }
 }
 
