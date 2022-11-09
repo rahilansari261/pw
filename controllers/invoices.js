@@ -5,9 +5,60 @@ require('dotenv').config()
 const jwt = require('jsonwebtoken')
 // const asyncWrapper = require('../middleware/async')
 // const { createCustomError } = require('../errors/custom-error')
+const saleChart = async (date, value, ChartSaleCollection) => {
+  try {
+    //prettier-ignore
+    const months = new Array('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec')
+    const givenDate = new Date(date || Date.now())
+    const month = '' + months[givenDate.getMonth()]
+    const year = givenDate.getFullYear()
+
+    const monthAndYear = [month, year].join('-')
+    const saleData = await ChartSaleCollection.findOne({ month: monthAndYear })
+
+    if (saleData) {
+      //prettier-ignore
+      const updatedSaleData = await ChartSaleCollection.findOneAndUpdate({ month: monthAndYear },{ $inc: { stats: value } },{ multi: false })
+    } else {
+      const chart = {
+        month: monthAndYear,
+        stats: value,
+      }
+      const createdChartData = await ChartSaleCollection.create(chart)
+    }
+  } catch (error) {
+    // prettier-ignore
+    return console.log(error);
+  }
+}
+// prettier-ignore
+const updateAccounts = async (invoice,AccountCollection,ClientCollection,isAdvance,InvoiceCollection) => {
+  const newAccountEntry = {
+    client_id: invoice.client_data.client_id,
+    client_name: invoice.client_data.client_name,
+    client_company: invoice.client_data.client_company,
+    entry_date: invoice.invoice_data.date,
+    entry_remarks: `Invoice No ${invoice.invoice_data.number}`,
+    entry_type: 'System',
+    entry_amount_in: 0,
+    entry_amount_out: invoice.invoice_data.grand_total,
+  }
+  await AccountCollection.create(newAccountEntry)
+  // prettier-ignore
+  const clientDoc = await ClientCollection.findOneAndUpdate({ _id: newAccountEntry.client_id },{ $inc: { client_balance: newAccountEntry.entry_amount_out } },{ new: true },)
+
+  if (isAdvance) {    
+    const client_balance = clientDoc.client_balance 
+    if (client_balance >= invoice.invoice_data.grand_total) {
+       client_balance = invoice.invoice_data.grand_total * -1
+    }
+  // prettier-ignore
+    const invoiceDoc = await InvoiceCollection.findOneAndUpdate({ _id: invoice._id },{$inc: { 'invoice_data.balance': client_balance * -1 },$push: {'invoice_data.paymentHistory': {dated: new Date(),amount: client_balance,remark: 'Advance Adjusment',},},})
+  }
+}
 
 const createInvoice = async (req, res) => {
-  var invoiceData = req.body.invoiceData
+  const invoiceData = req.body.invoiceData
   // prettier-ignore
   if (!invoiceData) return res.status(200).json({message: ' Data Not Provided',data: null,success: false,})
   // prettier-ignore
@@ -54,14 +105,14 @@ const createInvoice = async (req, res) => {
     product_data: [],
   }
   // TODO apply loop to save all the tax summary in the array.
-  for (var i = 0; i < invoiceData.invoice_data.tax_summary.length; i++) {
+  for (let i = 0; i < invoiceData.invoice_data.tax_summary.length; i++) {
     newInvoice.invoice_data.tax_summary.push({
       tax_name: invoiceData.invoice_data.tax_summary[i].tax_name,
       tax_amount: invoiceData.invoice_data.tax_summary[i].tax_amount,
     })
   }
 
-  for (var i = 0; i < invoiceData.product_data.length; i++) {
+  for (let i = 0; i < invoiceData.product_data.length; i++) {
     newInvoice.product_data.push({
       product_name: invoiceData.product_data[i].product_name,
       product_desc: invoiceData.product_data[i].product_desc,
