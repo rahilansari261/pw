@@ -4,7 +4,7 @@ require('dotenv').config()
 const jwt = require('jsonwebtoken')
 // const asyncWrapper = require('../middleware/async')
 // const { createCustomError } = require('../errors/custom-error')
-
+const { dateFilter } = require('../utils/utils')
 // <!-- two api remaining getAll and 1 in getAccountDetails function that is commented -->
 
 const updateInvoices = async (accountData, InvoiceCollection) => {
@@ -73,14 +73,9 @@ const getFindAndSortOptionsAccoToParams = async (
   end_date
 ) => {
   let findAndSortOptions = {}
-  let startDate
-  let endDate
-  if (start_date != 'no-start-date' && end_date != 'no-end-date') {
-    startDate = new Date(start_date)
-    endDate = new Date(end_date)
-    startDate.setHours(0, 0, 0, 0)
-    endDate.setHours(23, 59, 59, 999)
-  }
+  // if (start_date != 'no-start-date' && end_date != 'no-end-date') {
+  //   let { startDate, endDate } = await dateFilter(start_date, end_date)
+  // }
   // 1-> getting accounts with date filter and paging
   if (
     client_id === 'no-id' &&
@@ -88,6 +83,7 @@ const getFindAndSortOptionsAccoToParams = async (
     start_date != 'no-start-date' &&
     end_date != 'no-end-date'
   ) {
+    const { startDate, endDate } = await dateFilter(start_date, end_date)
     findAndSortOptions.findOptions = {
       entry_date: {
         $gte: startDate,
@@ -169,6 +165,7 @@ const getFindAndSortOptionsAccoToParams = async (
     client_id != 'no-id' &&
     searchString != 'no-search'
   ) {
+    const { startDate, endDate } = await dateFilter(start_date, end_date)
     findAndSortOptions.findOptions = {
       $and: [
         {
