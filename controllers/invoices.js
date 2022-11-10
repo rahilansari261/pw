@@ -186,7 +186,6 @@ const getInvoiceDetail = async (req, res) => {
     res.status(200).json({ message: error, data: null, success: false })
   }
 }
-
 const getRecentInvoiceDetail = async (req, res) => {
   try {
     // prettier-ignore
@@ -201,7 +200,6 @@ const getRecentInvoiceDetail = async (req, res) => {
     res.status(200).json({ message: error, data: null, success: false })
   }
 }
-
 const cancelInvoice = async (req, res) => {
   // prettier-ignore
   const InvoiceCollection = mongoose.model(`${req.doc._id}-invoices`, require('../models/Invoice'))
@@ -222,11 +220,94 @@ const cancelInvoice = async (req, res) => {
   // prettier-ignore
   res.status(200).json({message: 'invoice Cancelled  Successfully',data: doc, success: true,})
 }
+const getUnpaidInvoice = async (req, res) => {
+  try {
+    const client_id = req.params.client_id
+    // prettier-ignore
+    const InvoiceCollection = mongoose.model(`${req.doc._id}-invoices`, require('../models/Invoice'))
+    const doc = await InvoiceCollection.find({
+      $and: [
+        { 'invoice_data.status': true },
+        { 'client_data.client_id': client_id },
+        { 'invoice_data.balance': { $gt: 0 } },
+      ],
+    })
+      .select({
+        _id: 1,
+        client_data: 1,
+        'invoice_data.number': 1,
+        'invoice_data.date': 1,
+        'invoice_data.grand_total': 1,
+        'invoice_data.balance': 1,
+      })
+      .sort({ 'invoice_data.date': 1 })
+      .exec()
+    // prettier-ignore
+    if (!doc) return res.status(200).json({ message: error, data: null, success: false })
+    // prettier-ignore
+    res.status(200).json({message: 'Un-Paid invoice details',data: doc, success: true,})
+  } catch (error) {
+    res.status(200).json({ message: error, data: null, success: false })
+  }
+}
+const getInvoiceAccoToType = async (req, res) => {
+  try {
+    let { page, perPage, type } = req.params
+    let findOptions = {}
+    // prettier-ignore
+    if (isNaN(page) || isNaN(perPage)) return res.status(200).json({message: 'Pagin Error',data: null,success: false,})
+    page = parseInt(page)
+    perPage = parseInt(perPage)
+    const startingPageForSort = (page - 1) * perPage
+    
+    if (type === 'All') findOptions = {}
+    else if (type === 'Cancel') findOptions = { 'invoice_data.status': false }
+    else if (type === 'Paid')
+      findOptions = {
+        $and: [{ 'invoice_data.balance': 0 }, { 'invoice_data.status': true }],
+      }
+    else if (type === 'Pending')
+      findOptions = {
+        $and: [
+          { 'invoice_data.balance': { $gt: 0 } },
+          { 'invoice_data.status': true },
+        ],
+      }
+
+    // prettier-ignore
+    const InvoiceCollection = mongoose.model(`${req.doc._id}-invoices`, require('../models/Invoice'))
+    const doc = await InvoiceCollection.find(findOptions)
+      .select({
+        _id: 1,
+        'client_data.client_company_name': 1,
+        'client_data.client_name': 1,
+        'invoice_data.number': 1,
+        'invoice_data.date': 1,
+        'invoice_data.status': 1,
+        'invoice_data.grand_total': 1,
+        'invoice_data.balance': 1,
+      })
+      .sort({ _id: -1 })
+      .skip(start)
+      .limit(perPage)
+      .exec()
+    // prettier-ignore
+    if (!doc) return res.status(200).json({ message: error, data: null, success: false })
+    // console.log(data);
+    const noOfInvoice = await InvoiceCollection.count(findOptions)
+    // prettier-ignore
+    res.status(200).json({message: `Invoices after according to ${type} filter.`,data: doc, count :noOfInvoice, success: true,})
+  } catch (error) {
+    res.status(200).json({ message: error, data: null, success: false })
+  }
+}
 module.exports = {
   createInvoice,
   getInvoiceDetail,
   getRecentInvoiceDetail,
   cancelInvoice,
+  getUnpaidInvoice,
+  getInvoiceAccoToType,
   updateInvoice,
   getInvoiceWithSearchAndPaging,
 }
