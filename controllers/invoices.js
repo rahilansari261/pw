@@ -61,7 +61,26 @@ const updateAccounts = async (invoice,AccountCollection,ClientCollection,isAdvan
     return console.log(error);
   }
 }
-
+const updateCancelAccounts = async (invoice, accounts, ClientCollection) => {
+  try {
+    const newAccountEntry = {
+      client_id: invoice.client_data.client_id,
+      client_name: invoice.client_data.client_name,
+      client_company: invoice.client_data.client_company,
+      entry_date: new Date(),
+      entry_remarks: 'Cancelled Invoice No ' + invoice.invoice_data.number,
+      entry_type: 'System',
+      entry_amount_in: 0,
+      entry_amount_out: invoice.invoice_data.grand_total * -1,
+    }
+    await AccountCollection.create(newAccountEntry)
+    // prettier-ignore
+    await ClientCollection.findOneAndUpdate({ _id: newAccountEntry.client_id },{ $inc: { client_balance: newAccountEntry.
+      entry_amount_out } })
+  } catch (error) {
+    console.log(error)
+  }
+}
 const createInvoice = async (req, res) => {
   const invoiceData = req.body.invoiceData
   // prettier-ignore
@@ -153,11 +172,61 @@ const createInvoice = async (req, res) => {
   // prettier-ignore
   res.status(200).json({message: 'invoice Added Successfully',data: doc, success: true,})
 }
+const getInvoiceDetail = async (req, res) => {
+  try {
+    // prettier-ignore
+    const InvoiceCollection = mongoose.model(`${req.doc._id}-invoices`, require('../models/Invoice'))
+    // prettier-ignore
+    const doc = await InvoiceCollection.findById({_id: req.params.id})
+    // prettier-ignore
+    if (!doc) return res.status(200).json({ message: error, data: null, success: false })
+    // prettier-ignore
+    res.status(200).json({message: 'Invoice details',data: doc, success: true,})
+  } catch (error) {
+    res.status(200).json({ message: error, data: null, success: false })
+  }
+}
 
+const getRecentInvoiceDetail = async (req, res) => {
+  try {
+    // prettier-ignore
+    const InvoiceCollection = mongoose.model(`${req.doc._id}-invoices`, require('../models/Invoice'))
+    // prettier-ignore
+    const doc = await InvoiceCollection.find({ 'invoice_data.status': true }).select({ 'invoice_data.date': 1 }).sort({ 'invoice_data.date': -1 }).skip(0).limit(1).exec()
+    // prettier-ignore
+    if (!doc) return res.status(200).json({ message: error, data: null, success: false })
+    // prettier-ignore
+    res.status(200).json({message: 'Last invoice details',data: doc, success: true,})
+  } catch (error) {
+    res.status(200).json({ message: error, data: null, success: false })
+  }
+}
+
+const cancelInvoice = async (req, res) => {
+  // prettier-ignore
+  const InvoiceCollection = mongoose.model(`${req.doc._id}-invoices`, require('../models/Invoice'))
+  // prettier-ignore
+  const ChartSaleCollection = mongoose.model(`${req.doc._id}-chartsale`, require('../models/ChartSale'))
+  // prettier-ignore
+  const AccountCollection = mongoose.model(`${req.doc._id}-accounts`, require('../models/Account'))
+  // prettier-ignore
+  const ClientCollection = mongoose.model(`${req.doc._id}-clients`, require('../models/Client'))
+  // prettier-ignore
+  const invoiceData = await InvoiceCollection.findOneAndUpdate({ _id: req.doc._id },{'invoice_data.status': false})
+  // prettier-ignore
+  if (!invoiceData) return res.status(200).json({ message: error, data: null, success: false })
+  // prettier-ignore
+  saleChart(invoiceData.invoice_data.date, -invoiceData.invoice_data.grand_total, ChartSaleCollection)
+  // prettier-ignore
+  updateCancelAccounts(invoiceData, AccountCollection, ClientCollection)
+  // prettier-ignore
+  res.status(200).json({message: 'invoice Cancelled  Successfully',data: doc, success: true,})
+}
 module.exports = {
   createInvoice,
-  updateInvoice,
   getInvoiceDetail,
+  getRecentInvoiceDetail,
   cancelInvoice,
+  updateInvoice,
   getInvoiceWithSearchAndPaging,
 }
