@@ -14,7 +14,7 @@ const {
   getAllInvoices,
   getAllCancelledInvoices,
   getAllInvoicesAccoToSearch,
-} = require('../controllers/clients')
+} = require('../controllers/invoices')
 
 router.route('/add').post(createInvoice)
 router.route('/:id').get(getInvoiceDetail)
