@@ -20,8 +20,8 @@ app.use(express.static('./public'))
 app.use(express.json())
 
 // routes
-
-app.use('/api/v1/tasks', tasks)
+console.log("hello")
+// app.use('/api/v1/tasks', tasks)
 app.use('/api/v1/users', users)
 app.use('/api/v1/accounts', accounts)
 app.use('/api/v1/products', products)

@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const InvoiceSchema = new mongoose.Schema({
   //_id : mongoose.Type.ObjectId();
   client_data: {
-    client_id: Schema.Types.ObjectId,
+    client_id: mongoose.Schema.Types.ObjectId,
     client_company_name: {
       type: String,
       required: [true, 'Company Name Must be filled'],
@@ -52,7 +52,7 @@ const InvoiceSchema = new mongoose.Schema({
   },
   product_data: [
     {
-      product_id: Schema.Types.ObjectId,
+      product_id: mongoose.Schema.Types.ObjectId,
       product_name: String,
       product_desc: String,
       product_unit: String,
@@ -77,7 +77,7 @@ const InvoiceSchema = new mongoose.Schema({
     balance: Number,
     paymentHistory: [
       {
-        id: Schema.Types.ObjectId,
+        id: mongoose.Schema.Types.ObjectId,
         dated: Date,
         amount: Number,
         remark: String,
@@ -88,4 +88,4 @@ const InvoiceSchema = new mongoose.Schema({
   },
 })
 
-module.exports = mongoose.model('Invoice', 'InvoiceSchema')
+module.exports = mongoose.model('Invoice', InvoiceSchema)
