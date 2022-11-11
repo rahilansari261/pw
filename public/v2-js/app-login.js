@@ -12,7 +12,7 @@ app.controller('loginCtrl', function ($scope, $http, $window) {
     $scope.fail = false
     $http({
       method: 'POST',
-      url: 'user/login',
+      url: 'api/v1/users/login',
       data: $scope.userData,
     }).success(function (data) {
       if (data.success == true) {

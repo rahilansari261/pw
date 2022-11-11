@@ -1,6 +1,8 @@
+// const express = require('express')
+// const app = express()
 const User = require('../models/User')
 const passwordHash = require('password-hash')
-var jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken')
 require('dotenv').config()
 // const asyncWrapper = require('../middleware/async')
 // const { createCustomError } = require('../errors/custom-error')
@@ -59,88 +61,64 @@ const createUser = async (req, res) => {
         },
       ],
     }
-    console.log('hello')
     const doc = await User.create(newUser)
-    res.status(200).json({ doc })
+    // prettier-ignore
+    if (!doc) return res.status(200).json({ message: error, data: null, success: false })
+    //prettier-ignore
+    res.status(200).json({message: 'User Added Successfully',data: doc, success: true,})
   } catch (error) {
     res.status(500).json({ msg: error })
   }
 }
-
 const loginUser = async (req, res) => {
   try {
     const docs = await User.findOne({ user_email: req.body.user_email })
-    if (!docs) {
-      return res.json({
-        success: false,
-        message: 'Sorry, Email is not registered',
-      })
-    } else {
-      if (!docs.user_subscriptionStatus) {
-        return res.json({
-          success: false,
-          message: 'Authentication failed. Account Disabled',
-        })
-      }
-      // user subscritionStatus is still valid
-      if (!docs.user_verification) {
-        return
-        res.json({
-          success: false,
-          message: 'Authentication failed. Account not yet verified',
-        })
-      }
-      // user have verified email account
-      if (!passwordHash.verify(req.body.user_password, docs.user_password)) {
-        return
-        res.json({
-          success: false,
-          message: 'Authentication failed. Wrong Password',
-        })
-      } else {
-        const now = new Date()
-        const payLoad = {
-          _id: docs._id,
-          email: docs.user_email,
-          name: docs.user_name,
-          compnay_name: docs.user_company_name,
-          subscription: docs.user_subscriptionEndDate,
-          create_time: now,
-        }
+    //prettier-ignore
+    if (!docs) return res.json({success: false,message: 'Sorry, Email is not registered',})
+     else {
+       //prettier-ignore
+       if (!docs.user_subscriptionStatus) return res.json({success: false,message: 'Authentication failed. Account Disabled',})
+       //prettier-ignore
+       if (!docs.user_verification) return res.json({success: false,message: 'Authentication failed. Account not yet verified',})
+       //prettier-ignore
+       if (!passwordHash.verify(req.body.user_password, docs.user_password)) return res.json({success: false,message: 'Authentication failed. Wrong Password',})
+       else {
+         const now = new Date()
+         const payLoad = {
+           _id: docs._id,
+           email: docs.user_email,
+           name: docs.user_name,
+           compnay_name: docs.user_company_name,
+           subscription: docs.user_subscriptionEndDate,
+           create_time: now,
+         }
 
-        if (docs.user_subscriptionEndDate >= now) {
-          // lastLogin
-          const conditions = { _id: docs._id },
-            update = { $set: { lastLogin: new Date() } },
-            options = { multi: false }
-          await User.updateOne(conditions, update, options)
+         if (docs.user_subscriptionEndDate >= now) {
+           // lastLogin
 
-          const token = jwt.sign(payLoad, app.get('superSecret'), {
-            expiresIn: '12h', // expires in 12 hours
-          })
-          docs.user_password = 'YOU ARE LOOKING AT THE WRONG PLACE'
-          // req.brute.reset(function () {}) // login Successful
-          res.json({
-            success: true,
-            message: 'Login Successful',
-            token: token,
-            data: docs,
-          })
-        } else {
-          const token = jwt.sign(payLoad, app.get('superSecret'), {
-            expiresIn: '5m', // expires in 12 hours
-          })
-          res.json({
-            success: false,
-            message: 'Subscription expired.',
-            code: 132,
-            token: token,
-          })
-        }
-      }
-    }
+           const conditions = { _id: docs._id }
+           const update = { $set: { lastLogin: new Date() } }
+           const options = { multi: false }
+           const user = await User.findOneAndUpdate(conditions, update, options)
+
+           const token = jwt.sign(payLoad, process.env.SECRET, {
+             expiresIn: '12h', // expires in 12 hours
+           })
+           docs.user_password = 'YOU ARE LOOKING AT THE WRONG PLACE'
+           // req.brute.reset(function () {}) // login Successful
+           //prettier-ignore
+           res.json({success: true,message: 'Login Successful',token: token,data: docs,})
+         } else {
+           const token = jwt.sign(payLoad, process.env.SECRET, {
+             expiresIn: '5m', // expires in 12 hours
+           })
+           //prettier-ignore
+           res.json({success: false,message: 'Subscription expired.',code: 132,token: token,})
+         }
+       }
+     }
   } catch (error) {
-    res.status(500).json({ msg: error })
+    res.status(500).json({ msg: error.message })
   }
 }
 const forgotUser = async (req, res) => {}
