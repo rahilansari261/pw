@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const AccountSchema = new mongoose.Schema({
-  client_id: Schema.Types.ObjectId,
+  client_id: mongoose.Schema.Types.ObjectId,
   client_name: String,
   client_company: String,
   entry_date: Date,
@@ -18,4 +18,4 @@ const AccountSchema = new mongoose.Schema({
   },
   entry_balance: { type: Number },
 })
-module.exports = mongoose.model('Account', 'AccountSchema')
+module.exports = mongoose.model('Account', AccountSchema)
