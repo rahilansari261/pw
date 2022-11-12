@@ -123,14 +123,15 @@ const loginUser = async (req, res) => {
 }
 const forgotUser = async (req, res) => {}
 const verifyUser = async (req, res) => {
-  const token = req.params.c
-  // prettier-ignore
-  if (!token) return res.status(403).send({ success: false, message: 'No token provided. 2' })
-  // decode token
-  else {
+  try {
+    const token = req.params.c
+    // prettier-ignore
+    if (!token) return res.status(403).send({ success: false, message: 'No token provided. 2' })
+    // decode token
+    else {
     // verifies the sceret and checks expiration
-    jwt.verify(token, app.get('verifySecret'), function (err, decoded) {
-      if (err) return res.json({success: false,message: 'Fail to Authenticate.'})
+      const verifiedToken =  jwt.verify(token, app.get('verifySecret'))
+      if (!verifiedToken) return res.json({success: false,message: 'Fail to Authenticate.'})
       else { 
         // prettier-ignore-start
         const decoded = jwt.decode(token, { complete: true })
@@ -139,18 +140,21 @@ const verifyUser = async (req, res) => {
         const update = {$set: {user_verification: true}}
         const options = { multi: true }
         
-        User.updateOne(conditions, update, options, callback)
-        function callback(err, numAffected) {
-          if (err) console.log(err)
-           else {
-            // numAffected is the number of updated documents
-            if (numAffected.nModified > 0) res.json({message:'Account has been verified',success: true,})
-            else res.status(403).json({ message: 'Access Unauthorized', success: false })
-            // prettier-ignore-end              
+        const numAffected = await User.findOneAndUpdate(conditions, update, options)
+         
+        if (!numAffected) console.log(err)
+        else {
+          // numAffected is the number of updated documents
+          if (numAffected.nModified > 0) res.json({message:'Account has been verified',success: true,})
+          else {
+            res.status(403).json({ message: 'Access Unauthorized', success: false })
           }
-        }
-      }
-    })
+          // prettier-ignore-end              
+        }        
+      }    
+    }
+  } catch (error) {
+    res.status(500).json({ msg: error.message })
   }
 }
 const resetUser = async (req, res) => {
@@ -189,28 +193,20 @@ const resetUser = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const userData = req.body.userData
-    if (!userData) {
-      // prettier-ignore
-      return res.status(200).json(getFailureResponse('User Data is missing', false))
-    }
+    // prettier-ignore
+    if (!userData) return res.status(200).json(getFailureResponse('User Data is missing', false))
+
     const data = await User.findOne({ _id: req.doc._id })
-    if (!data)
-      // prettier-ignore
-      res.status(200).json({message: 'No user found with the given id',success: false,})
+    // prettier-ignore
+    if (!data) return res.status(200).json({message: 'No user found with the given id',success: false,})
     else {
       if (userData.user_name) data.user_name = userData.user_name
-
       if (userData.user_tin) data.user_tin = userData.user_tin
-
       if (userData.user_stn) data.user_stn = userData.user_stn
-
       if (userData.user_address) data.user_address = userData.user_address
-
       if (userData.user_phone) data.user_phone = userData.user_phone
-
       if (userData.user_settings && userData.user_settings.user_tc)
         data.user_settings.user_tc = userData.user_settings.user_tc
-
       data.user_lastModified = Date.now()
       data.save()
       // prettier-ignore
@@ -223,20 +219,16 @@ const updateUser = async (req, res) => {
 }
 const passwordchangeUser = async (req, res) => {
   const passwordData = req.body.passwordData
-  if (!passwordData) {
-    // prettier-ignore
-    return res.status(200).json(getFailureResponse('User Data is missing', false))
-  }
-  if (passwordData.newPassword != passwordData.newPassword2) {
-    // prettier-ignore
-    return res.json({ success: false, message: 'Password do not match', })
-  }
+  // prettier-ignore
+  if (!passwordData) return res.status(200).json(getFailureResponse('User Data is missing', false))
+  // prettier-ignore
+  if (passwordData.newPassword != passwordData.newPassword2) return res.json({ success: false, message: 'Password do not match', })
+
   try {
     const data = await User.findOne({ _id: req.doc._id })
-    if (!passwordHash.verify(passwordData.oldPassword, data.user_password)) {
-      // prettier-ignore
-      return res.json({ success: false, message: 'Wrong  Old Password' })
-    } else {
+    // prettier-ignore
+    if (!passwordHash.verify(passwordData.oldPassword, data.user_password)) return res.json({ success: false, message: 'Wrong  Old Password' })
+     else {
       data.user_password = passwordHash.generate(passwordData.newPassword)
       data.save()
       // prettier-ignore
@@ -250,10 +242,8 @@ const passwordchangeUser = async (req, res) => {
 const addtaxUser = async (req, res) => {
   try {
     const userData = req.body.userData
-    if (!userData) {
-      // prettier-ignore
-      return res.status(200).json(getFailureResponse('User Data is missing', false))
-    }
+    // prettier-ignore
+    if (!userData) return res.status(200).json(getFailureResponse('User Data is missing', false))
     userData._id = require('mongoose').Types.ObjectId()
     // prettier-ignore
     const docs = await User.updateOne({_id: req.doc._id,},{$push: {'user_settings.user_tax': userData,},},{upsert: true,},)
@@ -266,10 +256,8 @@ const addtaxUser = async (req, res) => {
 }
 const removetaxUser = async (req, res) => {
   try {
-    if (!req.body.userData) {
-      // prettier-ignore
-      return res.status(400).json(getFailureResponse('User Data is missing', false))
-    }
+    // prettier-ignore
+    if (!req.body.userData) return res.status(400).json(getFailureResponse('User Data is missing', false))
     const tax_id = require('mongoose').Types.ObjectId(req.params.taxId)
     // prettier-ignore
     User.updateOne({_id: req.doc._id},{$pull: {'user_settings.user_tax': {_id: tax_id}}},{upsert: true})
