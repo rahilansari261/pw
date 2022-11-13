@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-
+const authJWT = require('../middleware/authJWT')
 const {
   createProduct,
   updateProduct,
@@ -9,10 +9,10 @@ const {
   getProductWithSearchAndPaging,
 } = require('../controllers/products')
 
-router.route('/add').post(createProduct)
-router.route('/update').post(updateProduct)
-router.route('/remove/:id').get(removeProduct)
-router.route('/:id').get(getProductDetail)
-router.route('/:page/:perPage/:searchStr').get(getProductWithSearchAndPaging)
+router.route('/add').post(authJWT,createProduct)
+router.route('/update').post(authJWT,updateProduct)
+router.route('/remove/:id').get(authJWT,removeProduct)
+router.route('/:id').get(authJWT,getProductDetail)
+router.route('/:page/:perPage/:searchStr').get(authJWT,getProductWithSearchAndPaging)
 
 module.exports = router
