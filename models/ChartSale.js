@@ -5,4 +5,4 @@ const ChartSaleSchema = new mongoose.Schema({
   stats: { type: Number, required: true },
 })
 
-module.exports = mongoose.model('ChartSale', ChartSaleSchema)
+module.exports = ChartSaleSchema

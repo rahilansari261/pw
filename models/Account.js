@@ -18,4 +18,4 @@ const AccountSchema = new mongoose.Schema({
   },
   entry_balance: { type: Number },
 })
-module.exports = mongoose.model('Account', AccountSchema)
+module.exports = AccountSchema

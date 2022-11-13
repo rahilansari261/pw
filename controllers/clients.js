@@ -1,9 +1,4 @@
-const Client = require('../models/Client')
-const passwordHash = require('password-hash')
-require('dotenv').config()
-const jwt = require('jsonwebtoken')
-// const asyncWrapper = require('../middleware/async')
-// const { createCustomError } = require('../errors/custom-error')
+const mongoose = require('mongoose')
 
 // <!-- sorting condition will be added later -->
 
@@ -88,7 +83,7 @@ const getClientDetail = async (req, res) => {
     res.status(200).json({ message: 'Client Information ', data: doc, success: true })
   } catch (error) {
     // prettier-ignore
-    res.status(200).json({message: error,success: false,})
+    res.status(200).json({message: error.message,success: false,})
   }
 }
 

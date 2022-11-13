@@ -18,4 +18,4 @@ const ProductSchema = new mongoose.Schema({
   product_unit: { type: String, default: 'Nos' },
 })
 
-module.exports = mongoose.model('Product', ProductSchema)
+module.exports = ProductSchema
