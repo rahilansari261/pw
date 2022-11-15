@@ -1,27 +1,23 @@
 const express = require('express')
 const app = express()
-// const tasks = require('./routes/tasks')
 const users = require('./routes/users')
 const accounts = require('./routes/accounts')
 const products = require('./routes/products')
 const clients = require('./routes/clients')
 const invoices = require('./routes/invoices')
 const connectDB = require('./db/connect')
-// const config = require('./config')
 require('dotenv').config()
 const notFound = require('./middleware/not-found')
 const errorHandlerMiddleware = require('./middleware/error-handler')
 
 // variables
 app.set('superSecret', process.env.SECRET)
-// app.set('superSecret', config.secret)
-// middleware
 
+// middleware
 app.use(express.static('./public'))
 app.use(express.json())
 
 // routes
-// app.use('/api/v1/tasks', tasks)
 app.use('/api/v1/users', users)
 app.use('/api/v1/accounts', accounts)
 app.use('/api/v1/products', products)
